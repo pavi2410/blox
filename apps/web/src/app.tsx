@@ -1,6 +1,7 @@
-import { Toolbar } from "./components/toolbar";
 import { Editor } from "./components/editor";
 import { Output } from "./components/output";
+import { Stage } from "./components/stage";
+import { Toolbar } from "./components/toolbar";
 
 export function App() {
   return (
@@ -8,7 +9,10 @@ export function App() {
       <Toolbar />
       <main class="main">
         <Editor />
-        <Output />
+        <aside class="side">
+          <Stage />
+          <Output />
+        </aside>
       </main>
     </div>
   );

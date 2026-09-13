@@ -15,5 +15,8 @@
   "devDependencies": {
     "blockly": "catalog:",
     "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@blockly/field-colour": "catalog:"
   }
 }

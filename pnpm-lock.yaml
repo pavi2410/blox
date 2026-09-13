@@ -6,6 +6,12 @@ settings:
 
 catalogs:
   default:
+    '@blockly/field-colour':
+      specifier: ^13.3.0
+      version: 13.3.0
+    '@blockly/theme-dark':
+      specifier: ^13.3.0
+      version: 13.3.0
     '@solidjs/vite-plugin':
       specifier: 3.0.0-next.43
       version: 3.0.0-next.43
@@ -35,6 +41,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@blockly/theme-dark':
+        specifier: 'catalog:'
+        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
       '@blox/blocks':
         specifier: workspace:*
         version: link:../../packages/blocks
@@ -65,6 +74,10 @@ importers:
         version: 8.3.0
 
   packages/blocks:
+    dependencies:
+      '@blockly/field-colour':
+        specifier: 'catalog:'
+        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
     devDependencies:
       blockly:
         specifier: 'catalog:'
@@ -195,6 +208,21 @@ packages:
   '@babel/types@7.29.8':
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
+
+  '@blockly/field-colour@13.3.0':
+    resolution: {integrity: sha512-5Gm9dAyY3psU/JbEPh2CcWJ/01WtfxHV06PO3kYLGeStkr/eaZZD+AvnuBd7Q2opKh3X8uDvnceqrjgp3S7UvA==}
+    peerDependencies:
+      blockly: ^13.2.0
+
+  '@blockly/field-grid-dropdown@13.3.0':
+    resolution: {integrity: sha512-5q+CwaWOat9MQ5VuGcHEFT1yXtfFtgs89HRHZJ5cYs+UG2L2MUaCIvjnBgRDeKHwL5Jt+bJECfMlJd3B49c2IQ==}
+    peerDependencies:
+      blockly: ^13.2.0
+
+  '@blockly/theme-dark@13.3.0':
+    resolution: {integrity: sha512-0dGj2NINVoxdgKmbqm71Y/3+JL7+unbjXeHUWhvjCo3HB0k5tKnbTtW5HS3wVgdarI6OxhZo17t1om5tx8f4yg==}
+    peerDependencies:
+      blockly: ^13.2.0
 
   '@bramus/specificity@2.4.2':
     resolution: {integrity: sha512-ctxtJ/eA+t+6q2++vj5j7FYX3nRu311q1wfYH3xjlLOsczhlhxAg2FWNUXhpGvAw3BWo1xBcvOV6/YLc2r5FJw==}
@@ -1113,6 +1141,19 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
+
+  '@blockly/field-colour@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+    dependencies:
+      '@blockly/field-grid-dropdown': 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+      blockly: 13.3.0(jsdom@29.1.1)
+
+  '@blockly/field-grid-dropdown@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+    dependencies:
+      blockly: 13.3.0(jsdom@29.1.1)
+
+  '@blockly/theme-dark@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+    dependencies:
+      blockly: 13.3.0(jsdom@29.1.1)
 
   '@bramus/specificity@2.4.2':
     dependencies:
