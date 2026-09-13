@@ -8,7 +8,9 @@ export function Console() {
   // keep scrolled to bottom as output arrives
   createEffect(
     () => logs.length,
-    () => list.scrollTo({ top: list.scrollHeight }),
+    () => {
+      list.scrollTo({ top: list.scrollHeight });
+    },
   );
   createEffect(
     () => ask(),

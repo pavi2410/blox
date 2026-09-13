@@ -3,6 +3,8 @@ import { initRuntime } from "../state/runner";
 
 export function Stage() {
   let el!: HTMLDivElement;
-  onSettled(() => initRuntime(el));
+  onSettled(() => {
+    initRuntime(el);
+  });
   return <div ref={el} class="stage" />;
 }
