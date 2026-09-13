@@ -1,12 +1,15 @@
 import { Show } from "solid-js";
 import { examples } from "../examples";
 import { changeSpeed, debug, debugging, pause, paused, resume, run, running, speed, step, stop } from "../state/runner";
-import { clearWorkspace, exportJson, importJson, loadState } from "../state/workspace";
+import { canRedo, canUndo, clearWorkspace, exportJson, importJson, loadState, redo, undo } from "../state/workspace";
 
 export function Toolbar() {
   return (
     <header class="toolbar">
       <span class="brand">Blox</span>
+
+      <button class="icon" onClick={undo} disabled={!canUndo()} title="Undo (Ctrl+Z)">↶</button>
+      <button class="icon" onClick={redo} disabled={!canRedo()} title="Redo (Ctrl+Shift+Z)">↷</button>
 
       <Show
         when={running()}

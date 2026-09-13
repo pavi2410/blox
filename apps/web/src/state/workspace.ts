@@ -7,9 +7,20 @@ const KEY = "blox.workspace";
 
 export let ws: Blockly.WorkspaceSvg | null = null;
 export const [code, setCode] = createSignal("");
+export const [canUndo, setCanUndo] = createSignal(false);
+export const [canRedo, setCanRedo] = createSignal(false);
+
+const sync = (w: Blockly.WorkspaceSvg) => {
+  setCode(generate(w));
+  setCanUndo(w.getUndoStack().length > 0);
+  setCanRedo(w.getRedoStack().length > 0);
+};
 
 const save = (w: Blockly.WorkspaceSvg) =>
   localStorage.setItem(KEY, JSON.stringify(Blockly.serialization.workspaces.save(w)));
+
+export const undo = () => ws?.undo(false);
+export const redo = () => ws?.undo(true);
 
 export const loadSaved = (): object | undefined => {
   const raw = localStorage.getItem(KEY);
@@ -18,11 +29,11 @@ export const loadSaved = (): object | undefined => {
 
 export const onReady = (w: Blockly.WorkspaceSvg) => {
   ws = w;
-  setCode(generate(w));
+  sync(w);
 };
 
 export const onChange = (w: Blockly.WorkspaceSvg) => {
-  setCode(generate(w));
+  sync(w);
   save(w);
 };
 
