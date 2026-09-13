@@ -33,7 +33,7 @@ export function Output() {
         </Match>
         <Match when={tab() === "vars"}>
           <div class="panel">
-            <For each={Object.entries(vars)} fallback={<span class="muted">Variables appear while running</span>}>
+            <For each={Object.entries(vars)} fallback={<span class="muted">Variables appear while running in Debug mode</span>}>
               {([name, value]) => (
                 <div class="var">
                   <span class="name">{name}</span>

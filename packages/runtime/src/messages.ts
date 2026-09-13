@@ -1,4 +1,6 @@
 export interface RunOptions {
+  /** Debug mode: block highlighting, pause/step, breakpoints, variable snapshots, speed delay. */
+  debug: boolean;
   speed: number; // ms delay per tick, 0 = full speed
   breakpoints: string[];
 }

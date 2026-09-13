@@ -4,7 +4,7 @@ import { api } from "./api";
 import { initCanvas } from "./api/canvas";
 import { resetTurtle } from "./api/turtle";
 import { log, post, resolveRpc } from "./bridge";
-import { pause, resume, setBreakpoints, setSpeed, step } from "./control";
+import { pause, resume, setBreakpoints, setDebug, setSpeed, step } from "./control";
 import { nextFrame, onKey, onPointer, runEvents } from "./events";
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor as FunctionConstructor;
@@ -20,6 +20,7 @@ const finish = async (ok: boolean, err?: unknown) => {
 };
 
 async function run(m: Extract<HostToWorker, { type: "run" }>) {
+  setDebug(m.debug);
   setSpeed(m.speed);
   setBreakpoints(m.breakpoints);
   initCanvas(m.canvases);

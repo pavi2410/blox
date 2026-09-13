@@ -49,12 +49,15 @@ js.finish = (code: string) => {
 };
 
 /**
- * Generate JS for a workspace.
- * `trace` instruments statements/loops with `await __tick(id)` for stepping, highlighting and stop.
+ * - display: clean code for reading
+ * - run:     loops yield via `await __tick(id)` so Stop/events stay responsive
+ * - debug:   every statement ticks (highlight, pause, step, breakpoints) + variable snapshots
  */
-export function generate(ws: Blockly.Workspace, trace = false): string {
-  js.STATEMENT_PREFIX = trace ? TICK : null;
-  js.INFINITE_LOOP_TRAP = trace ? TICK : null;
+export type GenMode = "display" | "run" | "debug";
+
+export function generate(ws: Blockly.Workspace, mode: GenMode = "display"): string {
+  js.STATEMENT_PREFIX = mode === "debug" ? TICK : null;
+  js.INFINITE_LOOP_TRAP = mode === "display" ? null : TICK;
   current = ws;
   try {
     return js.workspaceToCode(ws);

@@ -5,4 +5,4 @@ import { javascriptGenerator } from "blockly/javascript";
 installColourBlocks({ javascript: javascriptGenerator });
 
 export { toolbox } from "./toolbox";
-export { generate } from "./generate";
+export { generate, type GenMode } from "./generate";

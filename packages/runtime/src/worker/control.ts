@@ -1,5 +1,6 @@
 import { fmt, post, sleep, yieldNow } from "./bridge";
 
+let debug = false;
 let speed = 0;
 let paused = false;
 let announced = false; // "paused" event sent to host for the current pause
@@ -12,6 +13,7 @@ let lastYield = 0;
 let lastHighlight = 0;
 let lastVars = 0;
 
+export const setDebug = (on: boolean) => (debug = on);
 export const setSpeed = (ms: number) => (speed = ms);
 export const setBreakpoints = (ids: string[]) => (breakpoints = new Set(ids));
 export const setVarsGetter = (fn: () => Record<string, unknown>) => (varsGetter = fn);
@@ -48,9 +50,17 @@ async function block(id: string | null) {
   await new Promise<void>((r) => resumeWaiters.push(r));
 }
 
-/** Cooperative scheduling point, injected before every statement and loop iteration. */
+/** Cooperative scheduling point: loop heads in run mode, every statement in debug mode. */
 export async function tick(id?: string) {
   const now = performance.now();
+
+  if (!debug) {
+    if (now - lastYield > 16) {
+      lastYield = now;
+      await yieldNow();
+    }
+    return;
+  }
 
   if (id !== undefined) {
     if (stepping || breakpoints.has(id)) {

@@ -13,7 +13,11 @@ export interface Ask {
   resolve: (answer: string) => void;
 }
 
-export const [running, setRunning] = createSignal(false);
+export type Mode = "idle" | "run" | "debug";
+
+export const [mode, setMode] = createSignal<Mode>("idle");
+export const running = () => mode() !== "idle";
+export const debugging = () => mode() === "debug";
 export const [paused, setPaused] = createSignal(false);
 export const [speed, setSpeed] = createSignal(0);
 export const [ask, setAsk] = createSignal<Ask | null>(null);
@@ -35,7 +39,7 @@ const onEvent = (e: RuntimeEvent) => {
     case "vars":
       return setVars(() => e.vars);
     case "done":
-      setRunning(false);
+      setMode("idle");
       setPaused(false);
       setAsk(null);
   }
@@ -54,19 +58,22 @@ export function initRuntime(stage: HTMLElement) {
   onBreakpointsChange((ids) => runtime?.setBreakpoints(ids));
 }
 
-export const run = () => {
+const start = (debug: boolean) => {
   if (!ws || !runtime) return;
   setLogs(() => []);
   setVars(() => ({}));
-  setRunning(true);
+  setMode(debug ? "debug" : "run");
   setPaused(false);
-  runtime.run(generate(ws, true), { speed: speed(), breakpoints: breakpointIds() });
+  runtime.run(generate(ws, debug ? "debug" : "run"), { debug, speed: speed(), breakpoints: breakpointIds() });
 };
+
+export const run = () => start(false);
+export const debug = () => start(true);
 
 export const stop = () => {
   runtime?.stop();
   ws?.highlightBlock(null);
-  setRunning(false);
+  setMode("idle");
   setPaused(false);
   setAsk(null);
 };
