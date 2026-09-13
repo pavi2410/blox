@@ -1,0 +1,23 @@
+{
+  "name": "@blox/editor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "@solidjs/web": "catalog:",
+    "blockly": "catalog:",
+    "solid-js": "catalog:"
+  },
+  "devDependencies": {
+    "@solidjs/web": "catalog:",
+    "blockly": "catalog:",
+    "solid-js": "catalog:",
+    "typescript": "catalog:"
+  }
+}

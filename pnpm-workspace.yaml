@@ -1,0 +1,11 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalog:
+  blockly: ^13.3.0
+  solid-js: 2.0.0-rc.8
+  "@solidjs/web": 2.0.0-rc.8
+  "@solidjs/vite-plugin": 3.0.0-next.43
+  vite: ^8.3.0
+  typescript: ^7.0.2

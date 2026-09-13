@@ -1,0 +1,25 @@
+{
+  "name": "@blox/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@blox/blocks": "workspace:*",
+    "@blox/editor": "workspace:*",
+    "@blox/runtime": "workspace:*",
+    "@solidjs/web": "catalog:",
+    "blockly": "catalog:",
+    "solid-js": "catalog:"
+  },
+  "devDependencies": {
+    "@solidjs/vite-plugin": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}
