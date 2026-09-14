@@ -45,10 +45,11 @@ const onEvent = (e: RuntimeEvent) => {
   }
 };
 
-/** Call once the stage element exists. */
-export function initRuntime(stage: HTMLElement) {
+/** Call once the stage and UI panel exist. */
+export function initRuntime(stage: HTMLElement, ui: HTMLElement) {
   runtime = new Runtime({
     stage,
+    ui,
     onEvent,
     rpc: {
       ask: (prompt: string) => new Promise<string>((resolve) => setAsk({ prompt, resolve })),

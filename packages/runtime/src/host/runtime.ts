@@ -1,10 +1,13 @@
 import type { HostToWorker, RunOptions, WorkerToHost } from "../messages";
 import { services, type RpcHandlers } from "./services";
 import { Stage } from "./stage";
+import { Ui } from "./ui";
 
 export interface RuntimeOptions {
   /** Element that hosts the stage canvases and receives input. */
   stage: HTMLElement;
+  /** Overlay on the stage for `show UI`. */
+  ui: HTMLElement;
   onEvent: (e: WorkerToHost) => void;
   /** Extra / overriding RPC handlers (e.g. `ask`, `clearConsole`). */
   rpc?: RpcHandlers;
@@ -14,13 +17,20 @@ export interface RuntimeOptions {
 export class Runtime {
   #worker: Worker | null = null;
   #stage: Stage;
+  #ui: Ui;
   #rpc: RpcHandlers;
   #onEvent: (e: WorkerToHost) => void;
 
   constructor(opts: RuntimeOptions) {
     this.#onEvent = opts.onEvent;
-    this.#rpc = { ...services, ...opts.rpc };
     this.#stage = new Stage(opts.stage, (m) => this.#send(m));
+    this.#ui = new Ui(opts.ui, (m) => this.#send(m));
+    this.#rpc = {
+      ...services,
+      showUi: (tree: unknown) => this.#ui.show(tree),
+      uiInput: (id: string) => this.#ui.input(id),
+      ...opts.rpc,
+    };
   }
 
   get running() {
@@ -52,6 +62,7 @@ export class Runtime {
   }
 
   stop() {
+    this.#ui.clear();
     this.#worker?.terminate();
     this.#worker = null;
   }

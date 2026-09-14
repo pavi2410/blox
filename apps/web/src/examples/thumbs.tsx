@@ -11,11 +11,10 @@ const thumbs: Record<string, () => JSX.Element> = {
   hello: () =>
     frame("#16161d", (
       <>
-        <rect x="36" y="48" width="280" height="14" rx="4" fill="#3a3a45" />
-        <rect x="36" y="78" width="210" height="14" rx="4" fill="#3a3a45" />
-        <rect x="36" y="108" width="248" height="14" rx="4" fill="#4f8cff" />
-        <circle cx="380" cy="220" r="52" fill="#26262e" />
-        <circle cx="380" cy="220" r="28" fill="#8a8a96" />
+        <rect x="90" y="88" width="300" height="184" rx="12" fill="#26262e" />
+        <rect x="114" y="112" width="180" height="12" rx="3" fill="#8a8a96" />
+        <rect x="114" y="140" width="252" height="32" rx="6" fill="#1e1e24" stroke="#3a3a45" />
+        <rect x="114" y="192" width="88" height="32" rx="6" fill="#4f8cff" />
       </>
     )),
   spiral: () =>

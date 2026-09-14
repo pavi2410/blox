@@ -7,6 +7,7 @@ import * as io from "./lib/io";
 import * as time from "./lib/time";
 import * as store from "./lib/store";
 import * as turtle from "./lib/turtle";
+import * as ui from "./lib/ui";
 import * as web from "./lib/web";
 
 export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
@@ -87,6 +88,7 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     { kind: "category", name: "Functions", colour: "%{BKY_PROCEDURES_HUE}", custom: "PROCEDURE" },
     { kind: "sep" },
     events.category,
+    ui.category,
     io.category,
     time.category,
     turtle.category,

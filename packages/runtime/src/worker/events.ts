@@ -1,8 +1,8 @@
 import { log, sleep } from "./bridge";
 import { idle } from "./control";
 
-type Handler = () => Promise<void>;
-type Kind = "start" | "key" | "click" | "frame" | "interval";
+type Handler = (payload?: unknown) => Promise<void>;
+type Kind = "start" | "key" | "click" | "frame" | "interval" | "ui";
 
 const handlers: Record<Kind, { fn: Handler; arg?: unknown }[]> = {
   start: [],
@@ -10,6 +10,12 @@ const handlers: Record<Kind, { fn: Handler; arg?: unknown }[]> = {
   click: [],
   frame: [],
   interval: [],
+  ui: [],
+};
+
+let uiOpen = false;
+export const setUiOpen = (on: boolean) => {
+  uiOpen = on;
 };
 
 export const keys = new Set<string>();
@@ -38,6 +44,10 @@ export function onPointer(x: number, y: number, down: boolean, click: boolean) {
   if (click) for (const h of handlers.click) fire(h.fn);
 }
 
+export function onUi(msg: unknown) {
+  for (const h of handlers.ui) fire(() => h.fn(msg));
+}
+
 export const nextFrame = () =>
   typeof requestAnimationFrame === "function"
     ? new Promise<void>((r) => requestAnimationFrame(() => r()))
@@ -45,7 +55,9 @@ export const nextFrame = () =>
 
 /** True if the program has reasons to stay alive after the main script ends. */
 export const hasLoops = () =>
-  handlers.key.length + handlers.click.length + handlers.frame.length + handlers.interval.length > 0;
+  uiOpen ||
+  handlers.key.length + handlers.click.length + handlers.frame.length + handlers.interval.length + handlers.ui.length >
+    0;
 
 /** Run start handlers, then drive frame/interval loops until the worker is terminated or a handler throws. */
 export async function runEvents(fail: (e: unknown) => void) {

@@ -21,6 +21,7 @@ export type HostToWorker =
   | { type: "breakpoints"; ids: string[] }
   | { type: "key"; key: string; down: boolean }
   | { type: "pointer"; x: number; y: number; down: boolean; click: boolean }
+  | { type: "ui"; msg: unknown }
   | { type: "rpcResult"; id: number; value?: unknown; error?: string };
 
 export type WorkerToHost =

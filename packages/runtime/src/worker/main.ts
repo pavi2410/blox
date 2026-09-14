@@ -5,7 +5,7 @@ import { initCanvas } from "./api/canvas";
 import { resetTurtle } from "./api/turtle";
 import { log, post, resolveRpc } from "./bridge";
 import { lastTick, pause, resetTick, resume, setBreakpoints, setDebug, setSpeed, step } from "./control";
-import { nextFrame, onKey, onPointer, runEvents } from "./events";
+import { nextFrame, onKey, onPointer, onUi, runEvents } from "./events";
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor as FunctionConstructor;
 
@@ -54,6 +54,8 @@ self.onmessage = ({ data: m }: MessageEvent<HostToWorker>) => {
       return onKey(m.key, m.down);
     case "pointer":
       return onPointer(m.x, m.y, m.down, m.click);
+    case "ui":
+      return onUi(m.msg);
     case "rpcResult":
       return resolveRpc(m);
   }

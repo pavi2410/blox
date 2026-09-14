@@ -4,6 +4,7 @@ import { canvas } from "./canvas";
 import { io } from "./io";
 import { time } from "./time";
 import { turtle } from "./turtle";
+import { ui } from "./ui";
 import { web } from "./web";
 
 /** Everything visible to generated code, by name. */
@@ -16,5 +17,6 @@ export const api = {
   ...time,
   ...canvas,
   ...turtle,
+  ...ui,
   ...web,
 };

@@ -17,8 +17,6 @@ export class Stage {
     this.#el = el;
     this.#send = send;
     el.tabIndex = 0;
-    el.style.position = "relative";
-    el.style.aspectRatio = `${STAGE.width} / ${STAGE.height}`;
     el.style.outline = "none";
 
     const pos = (e: PointerEvent) => {

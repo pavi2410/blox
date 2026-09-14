@@ -1,26 +1,45 @@
 import { breakout } from "./breakout";
 import { bubble } from "./sort";
-import { b, between, change, colour, hat, iff, items, math, num, program, seq, set, stage, txt, v, type In } from "./build";
+import { b, between, change, colour, cmp, hat, iff, items, math, num, program, seq, set, stage, txt, v, type In } from "./build";
 
 const join = (...ins: In[]) => items("text_join", ...ins);
 
+const ui = (...kids: ReturnType<typeof b>[]): In => ({ block: seq(...kids) });
+
 const hello = program(
-  ["i", "name"],
-  {
-    ...seq(
-      b("controls_for", { VAR: { id: "i" } }, {
-        FROM: num(1),
-        TO: num(5),
-        BY: num(1),
-        DO: { block: b("io_print", undefined, { VALUE: join(txt("Count: "), v("i")) }) },
-      }),
-      set("name", { block: b("io_ask", undefined, { PROMPT: txt("What is your name?") }) }),
-      b("io_print", undefined, { VALUE: join(txt("Hello, "), v("name"), txt("!")) }),
-      b("web_speak", undefined, { TEXT: join(txt("Hello "), v("name")) }),
+  ["name", "msg"],
+  hat(
+    "events_start",
+    b("ui_show", undefined, {
+      TREE: ui(
+        b("ui_column", undefined, {
+          KIDS: ui(
+            b("ui_label", undefined, { TEXT: txt("What is your name?") }),
+            b("ui_input", undefined, { ID: txt("name") }),
+            b("ui_button", undefined, { TEXT: txt("Go"), MSG: txt("go") }),
+          ),
+        }),
+      ),
+    }),
+  ),
+  hat(
+    "events_ui",
+    iff(
+      cmp("EQ", v("msg"), txt("go")),
+      seq(
+        set("name", { block: b("ui_value", undefined, { ID: txt("name") }) }),
+        b("io_print", undefined, { VALUE: join(txt("Hello, "), v("name"), txt("!")) }),
+        b("web_speak", undefined, { TEXT: join(txt("Hello "), v("name")) }),
+        b("ui_show", undefined, {
+          TREE: ui(b("ui_label", undefined, { TEXT: join(txt("Hello, "), v("name"), txt("!")) })),
+        }),
+      ),
     ),
-    x: 20,
-    y: 20,
-  },
+    { VAR: { id: "msg" } },
+    undefined,
+    380,
+    20,
+  ),
 );
 
 const spiral = program(
@@ -135,7 +154,7 @@ const melody = program(
 export type Example = { id: string; name: string; state: object };
 
 export const examples: Example[] = [
-  { id: "hello", name: "Hello & ask", state: hello },
+  { id: "hello", name: "Hello form", state: hello },
   { id: "spiral", name: "Turtle spiral", state: spiral },
   { id: "ball", name: "Bouncing ball", state: ball },
   { id: "keys", name: "Keyboard move", state: keys },
