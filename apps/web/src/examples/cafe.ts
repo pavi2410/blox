@@ -6,13 +6,13 @@ import {
   change,
   cmp,
   defn,
-  dset,
+  dict,
   each,
-  emptyDict,
   emptyList,
   hat,
   iff,
   items,
+  match,
   math,
   num,
   program,
@@ -45,7 +45,7 @@ const eq = (a: In, s: string) => cmp("EQ", a, txt(s));
 const mod = (a: In, n: number): In => ({
   block: b("math_modulo", undefined, { DIVIDEND: a, DIVISOR: num(n) }),
 });
-const on = (msg: string, body: ReturnType<typeof b>) => iff(eq(v("msg"), msg), body);
+const when = (msg: string, body: ReturnType<typeof b>): [In, ReturnType<typeof b>] => [txt(msg), body];
 
 const MENU: [string, string, number][] = [
   ["Espresso $3", "espresso", 3],
@@ -70,8 +70,7 @@ const pairs = (items: [string, string, number][]) => {
 const setup = defn(
   "setup",
   seq(
-    set("prices", emptyDict()),
-    ...MENU.map(([, key, price]) => dset(v("prices"), key, num(price))),
+    set("prices", dict(...MENU.map(([, key, price]): [In, In] => [txt(key), num(price)]))),
     set("cart", emptyList()),
     set("subtotal", num(0)),
     set("tip", num(0)),
@@ -110,30 +109,35 @@ const showScreen = defn(
       and(cmp("EQ", mod(v("visits"), 3), num(0)), cmp("GT", v("visits"), num(0))),
       set("stamp", txt("Stamp card: free drink on us next time.")),
     ),
-    iff(
-      eq(v("screen"), "home"),
-      show(
-        col(
-          lab("Blox Cafe"),
-          lab("Order at the counter. What's your name?"),
-          field("name"),
-          lab(join(txt("Visits: "), v("visits"))),
-          btn("See menu", "menu"),
-        ),
-      ),
-      iff(
-        eq(v("screen"), "menu"),
-        show(
-          col(
-            lab(join(txt("Hi "), v("name"), txt(" — tap to add"))),
-            ...pairs(MENU),
-            lab(join(txt("Cart: "), v("lines"))),
-            lab(join(txt("Subtotal $"), v("subtotal"))),
-            row(btn("Checkout", "checkout"), btn("Clear", "clear"), btn("Home", "home")),
+    match(
+      v("screen"),
+      [
+        [
+          txt("home"),
+          show(
+            col(
+              lab("Blox Cafe"),
+              lab("Order at the counter. What's your name?"),
+              field("name"),
+              lab(join(txt("Visits: "), v("visits"))),
+              btn("See menu", "menu"),
+            ),
           ),
-        ),
-        iff(
-          eq(v("screen"), "pay"),
+        ],
+        [
+          txt("menu"),
+          show(
+            col(
+              lab(join(txt("Hi "), v("name"), txt(" — tap to add"))),
+              ...pairs(MENU),
+              lab(join(txt("Cart: "), v("lines"))),
+              lab(join(txt("Subtotal $"), v("subtotal"))),
+              row(btn("Checkout", "checkout"), btn("Clear", "clear"), btn("Home", "home")),
+            ),
+          ),
+        ],
+        [
+          txt("pay"),
           show(
             col(
               lab("Your order"),
@@ -147,16 +151,16 @@ const showScreen = defn(
               row(btn("Pay", "pay"), btn("Back", "menu")),
             ),
           ),
-          show(
-            col(
-              lab(join(txt("Thanks, "), v("name"), txt("!"))),
-              lab(join(txt("Paid $"), v("total"))),
-              lab(join(txt("Note: "), v("note"))),
-              lab(v("stamp")),
-              lab(join(txt("Visits: "), v("visits"))),
-              btn("Order again", "again"),
-            ),
-          ),
+        ],
+      ],
+      show(
+        col(
+          lab(join(txt("Thanks, "), v("name"), txt("!"))),
+          lab(join(txt("Paid $"), v("total"))),
+          lab(join(txt("Note: "), v("note"))),
+          lab(v("stamp")),
+          lab(join(txt("Visits: "), v("visits"))),
+          btn("Order again", "again"),
         ),
       ),
     ),
@@ -186,54 +190,53 @@ export const cafe = program(
   hat(
     "events_ui",
     seq(
-      on(
-        "menu",
-        seq(
-          iff(
-            eq(v("screen"), "home"),
-            seq(set("name", read("name")), iff(isEmpty(v("name")), set("name", txt("friend")))),
-          ),
-          set("screen", txt("menu")),
-          call("show"),
-        ),
-      ),
-      on("home", seq(set("screen", txt("home")), call("show"))),
       iff(has(v("prices"), v("msg")), call("add item")),
-      on(
-        "checkout",
-        iff(
-          listEmpty(v("cart")),
-          print(txt("Cart is empty")),
-          seq(set("tip", num(0)), set("total", v("subtotal")), set("screen", txt("pay")), call("show")),
+      match(v("msg"), [
+        when(
+          "menu",
+          seq(
+            iff(
+              eq(v("screen"), "home"),
+              seq(set("name", read("name")), iff(isEmpty(v("name")), set("name", txt("friend")))),
+            ),
+            set("screen", txt("menu")),
+            call("show"),
+          ),
         ),
-      ),
-      on(
-        "clear",
-        seq(set("cart", emptyList()), set("subtotal", num(0)), print(txt("Cart cleared")), call("show")),
-      ),
-      on("tip0", seq(set("tip", num(0)), set("total", v("subtotal")), call("show"))),
-      on(
-        "tip10",
-        seq(set("tip", math("MULTIPLY", v("subtotal"), num(0.1))), set("total", math("ADD", v("subtotal"), v("tip"))), call("show")),
-      ),
-      on(
-        "tip15",
-        seq(set("tip", math("MULTIPLY", v("subtotal"), num(0.15))), set("total", math("ADD", v("subtotal"), v("tip"))), call("show")),
-      ),
-      on(
-        "pay",
-        seq(
-          set("note", read("note")),
-          iff(isEmpty(v("note")), set("note", txt("none"))),
-          change("visits", 1),
-          save("cafe.visits", v("visits")),
-          print(join(txt("Paid $"), v("total"), txt(" for "), v("name"))),
-          speak(join(txt("Thanks "), v("name"))),
-          set("screen", txt("done")),
-          call("show"),
+        when("home", seq(set("screen", txt("home")), call("show"))),
+        when(
+          "checkout",
+          iff(
+            listEmpty(v("cart")),
+            print(txt("Cart is empty")),
+            seq(set("tip", num(0)), set("total", v("subtotal")), set("screen", txt("pay")), call("show")),
+          ),
         ),
-      ),
-      on("again", seq(call("setup"), call("show"))),
+        when("clear", seq(set("cart", emptyList()), set("subtotal", num(0)), print(txt("Cart cleared")), call("show"))),
+        when("tip0", seq(set("tip", num(0)), set("total", v("subtotal")), call("show"))),
+        when(
+          "tip10",
+          seq(set("tip", math("MULTIPLY", v("subtotal"), num(0.1))), set("total", math("ADD", v("subtotal"), v("tip"))), call("show")),
+        ),
+        when(
+          "tip15",
+          seq(set("tip", math("MULTIPLY", v("subtotal"), num(0.15))), set("total", math("ADD", v("subtotal"), v("tip"))), call("show")),
+        ),
+        when(
+          "pay",
+          seq(
+            set("note", read("note")),
+            iff(isEmpty(v("note")), set("note", txt("none"))),
+            change("visits", 1),
+            save("cafe.visits", v("visits")),
+            print(join(txt("Paid $"), v("total"), txt(" for "), v("name"))),
+            speak(join(txt("Thanks "), v("name"))),
+            set("screen", txt("done")),
+            call("show"),
+          ),
+        ),
+        when("again", seq(call("setup"), call("show"))),
+      ]),
     ),
     { VAR: { id: "msg" } },
     undefined,

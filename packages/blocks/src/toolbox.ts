@@ -3,6 +3,7 @@ import { block, cat, colour, num, txt } from "./util";
 import * as canvas from "./lib/canvas";
 import * as data from "./lib/data";
 import * as events from "./lib/events";
+import { flyout as matchFlyout } from "./lib/match";
 import * as io from "./lib/io";
 import * as time from "./lib/time";
 import * as store from "./lib/store";
@@ -16,6 +17,7 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     cat("Logic", "%{BKY_LOGIC_HUE}", [
       block("controls_if"),
       block("controls_if", undefined, { extraState: { hasElse: true } }),
+      ...matchFlyout,
       block("logic_compare"),
       block("logic_between", { VALUE: num(5), LOW: num(1), HIGH: num(10) }),
       block("logic_operation"),

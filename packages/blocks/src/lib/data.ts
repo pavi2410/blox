@@ -1,4 +1,5 @@
 import { Order, block, cat, define, txt, val } from "../util";
+import { factory as dictFactory } from "./dict";
 
 const HUE = 20;
 
@@ -119,6 +120,8 @@ define([
 
 export const category = cat("Data", HUE, [
   block("dict_create"),
+  dictFactory(),
+  block("dict_pair", { KEY: txt("key"), VAL: txt("value") }),
   block("dict_get", { KEY: txt("key") }),
   block("dict_set", { KEY: txt("key") }),
   block("dict_remove", { KEY: txt("key") }),

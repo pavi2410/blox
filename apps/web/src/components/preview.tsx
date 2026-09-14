@@ -8,7 +8,7 @@ type Node = {
 
 type Rect = { x: number; y: number; w: number; h: number; c: string };
 
-const STMT = /^(DO\d*|ELSE|STACK|TREE|KIDS)$/;
+const STMT = /^(DO\d*|ELSE|STACK|TREE|KIDS|PAIRS|CASES)$/;
 
 const HUES: [string, number][] = [
   ["ui_", 190],
@@ -24,6 +24,7 @@ const HUES: [string, number][] = [
   ["time_", 200],
   ["logic_", 210],
   ["controls_if", 210],
+  ["controls_match", 210],
   ["controls_", 120],
   ["math_", 230],
   ["text_", 160],

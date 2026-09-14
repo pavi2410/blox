@@ -43,6 +43,20 @@ export const iff = (cond: In, then: B, els?: B) =>
 
 export const emptyList = (): In => ({ block: b("lists_create_with", undefined, undefined, { itemCount: 0 }) });
 export const emptyDict = (): In => ({ block: b("dict_create") });
+export const dict = (...pairs: [In, In][]): In => ({
+  block: b(
+    "dict_create_with",
+    undefined,
+    pairs.length
+      ? { PAIRS: { block: seq(...pairs.map(([k, value]) => b("dict_pair", undefined, { KEY: k, VAL: value }))) } }
+      : undefined,
+  ),
+});
+export const match = (value: In, cases: [In, B][], els?: B) => {
+  const kids = cases.map(([c, body]) => b("controls_match_case", undefined, { IF: c, DO: { block: body } }));
+  if (els) kids.push(b("controls_match_else", undefined, { DO: { block: els } }));
+  return b("controls_match", undefined, { VALUE: value, ...(kids.length ? { CASES: { block: seq(...kids) } } : {}) });
+};
 export const dget = (dict: In, key: string): In => ({ block: b("dict_get", undefined, { KEY: txt(key), DICT: dict }) });
 export const dset = (dict: In, key: string, value: In) =>
   b("dict_set", undefined, { KEY: txt(key), DICT: dict, VALUE: value });

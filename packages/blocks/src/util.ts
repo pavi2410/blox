@@ -31,6 +31,15 @@ export const val = (b: Blockly.Block, g: Gen, name: string, fallback: string) =>
 
 export const stmt = (b: Blockly.Block, g: Gen, name = "DO") => g.statementToCode(b, name);
 
+/** Enabled statement children of `name`, in order. */
+export const chain = (b: Blockly.Block, name: string) => {
+  const out: Blockly.Block[] = [];
+  for (let p = b.getInputTargetBlock(name); p; p = p.getNextBlock()) {
+    if (p.isEnabled() && !p.isInsertionMarker()) out.push(p);
+  }
+  return out;
+};
+
 // ---- toolbox helpers ----
 export type Item = Blockly.utils.toolbox.ToolboxItemInfo;
 
