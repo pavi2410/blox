@@ -1,55 +1,97 @@
-import { For } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 import { current, currentId, newProject, openProject, projects, removeProject, renameProject, shareUrl } from "../state/projects";
-import { applyProject, workspaceState } from "../state/workspace";
+import { running, stop } from "../state/runner";
+import { applyProject, flushSave, workspaceState } from "../state/workspace";
+import { Modal } from "./modal";
+import { Preview } from "./preview";
+
+const ago = (t: number) => {
+  const s = (Date.now() - t) / 1000;
+  if (s < 60) return "just now";
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+  return new Date(t).toLocaleDateString();
+};
 
 const switchTo = async (id: string) => {
   if (id === currentId()) return;
+  flushSave();
+  if (running()) stop();
   await openProject(id);
   applyProject(current()?.state);
 };
 
 export function Projects() {
+  const [open, setOpen] = createSignal(false);
+
+  const create = async () => {
+    const name = prompt("Project name", "Untitled");
+    if (!name) return;
+    flushSave();
+    if (running()) stop();
+    await newProject(name);
+    applyProject({});
+    setOpen(false);
+  };
+
   return (
-    <div class="projects">
-      <select
-        value={currentId()}
-        onChange={(e) => void switchTo(e.currentTarget.value)}
-        title="Projects"
-      >
-        <For each={projects()}>{(p) => <option value={p.id}>{p.name}</option>}</For>
-      </select>
-      <button
-        onClick={() => {
-          const name = prompt("Project name", "Untitled");
-          if (name) void newProject(name).then(() => applyProject({}));
-        }}
-      >
-        New
+    <>
+      <button class="projects-btn" onClick={() => setOpen(true)} title="Projects">
+        {current()?.name ?? "Projects"}
       </button>
-      <button
-        onClick={() => {
-          const name = prompt("Rename project", current()?.name ?? "");
-          if (name) void renameProject(name);
-        }}
-      >
-        Rename
-      </button>
-      <button
-        onClick={() => {
-          shareUrl(workspaceState());
-          alert("Share URL copied to clipboard");
-        }}
-        title="Copy a URL that opens this project"
-      >
-        Share
-      </button>
-      <button
-        onClick={() => {
-          if (confirm(`Delete "${current()?.name}"?`)) void removeProject().then(() => applyProject(current()?.state));
-        }}
-      >
-        Delete
-      </button>
-    </div>
+      <Show when={open()}>
+        <Modal
+          title="Projects"
+          onClose={() => setOpen(false)}
+          extra={<button onClick={() => void create()}>New</button>}
+        >
+          <div class="gallery">
+            <For each={projects()}>
+              {(p) => (
+                <div class={{ "gallery-card": true, current: p.id === currentId() }}>
+                  <button class="gallery-open" onClick={() => void switchTo(p.id).then(() => setOpen(false))}>
+                    <div class="gallery-thumb">
+                      <Preview state={p.id === currentId() ? workspaceState() : p.state} />
+                    </div>
+                    <span>{p.name}</span>
+                    <span class="gallery-when">{ago(p.updatedAt)}</span>
+                  </button>
+                  <div class="gallery-actions">
+                    <button
+                      onClick={() => {
+                        const name = prompt("Rename project", p.name);
+                        if (name) void renameProject(p.id, name);
+                      }}
+                    >
+                      Rename
+                    </button>
+                    <button
+                      onClick={() => {
+                        shareUrl(p.id === currentId() ? workspaceState() : p.state);
+                        alert("Share URL copied to clipboard");
+                      }}
+                    >
+                      Share
+                    </button>
+                    <button
+                      class="danger"
+                      onClick={() => {
+                        if (!confirm(`Delete "${p.name}"?`)) return;
+                        const was = p.id === currentId();
+                        void removeProject(p.id).then(() => {
+                          if (was) applyProject(current()?.state);
+                        });
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              )}
+            </For>
+          </div>
+        </Modal>
+      </Show>
+    </>
   );
 }

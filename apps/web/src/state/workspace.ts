@@ -23,6 +23,12 @@ const persist = (w: Blockly.WorkspaceSvg) => {
   saveTimer = window.setTimeout(() => saveCurrent(snapshot(w)), 200);
 };
 
+export const flushSave = () => {
+  if (!ws) return;
+  clearTimeout(saveTimer);
+  saveCurrent(snapshot(ws));
+};
+
 export const undo = () => ws?.undo(false);
 export const redo = () => ws?.undo(true);
 

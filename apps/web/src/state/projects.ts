@@ -76,18 +76,20 @@ export const openProject = async (id: string) => {
   setCurrentId(id);
 };
 
-export const renameProject = async (name: string) => {
-  const p = current();
-  if (p && name.trim()) await persist({ ...p, name: name.trim(), updatedAt: Date.now() });
+export const renameProject = async (id: string, name: string) => {
+  const p = await getProject(id);
+  if (!p || !name.trim()) return;
+  await putProject({ ...p, name: name.trim(), updatedAt: Date.now() });
+  await refresh();
 };
 
-export const removeProject = async () => {
-  const id = currentId();
-  if (!id) return;
+export const removeProject = async (id: string) => {
   await deleteProject(id);
-  const rest = (await listProjects()).filter((p) => p.id !== id);
-  if (rest[0]) await openProject(rest[0].id);
-  else await newProject();
+  if (id === currentId()) {
+    const rest = await listProjects();
+    if (rest[0]) await openProject(rest[0].id);
+    else await newProject();
+  }
   await refresh();
 };
 
