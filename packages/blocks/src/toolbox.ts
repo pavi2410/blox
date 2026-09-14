@@ -5,6 +5,7 @@ import * as data from "./lib/data";
 import * as events from "./lib/events";
 import * as io from "./lib/io";
 import * as time from "./lib/time";
+import * as store from "./lib/store";
 import * as turtle from "./lib/turtle";
 import * as web from "./lib/web";
 
@@ -90,6 +91,7 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     time.category,
     turtle.category,
     canvas.category,
+    store.category,
     web.category,
   ],
 };

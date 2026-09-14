@@ -17,29 +17,6 @@ define([
   },
   {
     json: {
-      type: "web_store_save",
-      message0: "save %1 as %2",
-      args0: [input("VALUE"), input("KEY", "String")],
-      inputsInline: true,
-      previousStatement: null,
-      nextStatement: null,
-      colour: HUE,
-      tooltip: "Persist a value across runs and reloads",
-    },
-    js: (b, g) => `await store(${val(b, g, "KEY", "''")}, ${val(b, g, "VALUE", "null")});\n`,
-  },
-  {
-    json: {
-      type: "web_store_load",
-      message0: "load %1",
-      args0: [input("KEY", "String")],
-      output: null,
-      colour: HUE,
-    },
-    js: (b, g) => [`(await load(${val(b, g, "KEY", "''")}))`, Order.ATOMIC],
-  },
-  {
-    json: {
       type: "web_speak",
       message0: "say %1",
       args0: [input("TEXT", "String")],
@@ -63,12 +40,10 @@ define([
   },
 ]);
 
-export const reserved = ["fetchJson", "store", "load", "speak", "tone"];
+export const reserved = ["fetchJson", "speak", "tone"];
 
 export const category = cat("Web", HUE, [
   block("web_fetch", { URL: txt("https://api.github.com/repos/google/blockly") }),
-  block("web_store_save", { KEY: txt("score") }),
-  block("web_store_load", { KEY: txt("score") }),
   block("web_speak", { TEXT: txt("hello world") }),
   block("web_tone", { HZ: num(440), MS: num(200) }),
 ]);

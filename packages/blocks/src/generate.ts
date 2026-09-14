@@ -4,6 +4,7 @@ import * as canvas from "./lib/canvas";
 import * as events from "./lib/events";
 import * as io from "./lib/io";
 import * as time from "./lib/time";
+import * as store from "./lib/store";
 import * as turtle from "./lib/turtle";
 import * as web from "./lib/web";
 
@@ -11,7 +12,7 @@ const TICK = "await __tick(%1);\n";
 const MARK = "__at(%1);\n";
 
 js.addReservedWords(
-  ["__tick", "__at", "__vars", ...io.reserved, ...time.reserved, ...events.reserved, ...canvas.reserved, ...turtle.reserved, ...web.reserved].join(","),
+  ["__tick", "__at", "__vars", ...io.reserved, ...time.reserved, ...events.reserved, ...canvas.reserved, ...turtle.reserved, ...store.reserved, ...web.reserved].join(","),
 );
 
 // ---- async transform: procedures become async, calls are awaited ----
