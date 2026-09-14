@@ -1,5 +1,6 @@
 import { breakout } from "./breakout";
 import { cafe } from "./cafe";
+import { light } from "./light";
 import { bubble } from "./sort";
 import { b, between, change, colour, cmp, hat, iff, items, math, num, program, seq, set, stage, txt, v, type In } from "./build";
 
@@ -157,6 +158,7 @@ export type Example = { id: string; name: string; state: object };
 export const examples: Example[] = [
   { id: "hello", name: "Hello form", state: hello },
   { id: "cafe", name: "Blox Cafe", state: cafe },
+  { id: "light", name: "Traffic light", state: light },
   { id: "spiral", name: "Turtle spiral", state: spiral },
   { id: "ball", name: "Bouncing ball", state: ball },
   { id: "keys", name: "Keyboard move", state: keys },

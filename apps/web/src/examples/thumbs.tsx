@@ -31,6 +31,16 @@ const thumbs: Record<string, () => JSX.Element> = {
         <rect x="188" y="248" width="100" height="36" rx="6" fill="#3a3a45" />
       </>
     )),
+  light: () =>
+    frame("#16161d", (
+      <>
+        <rect x="195" y="36" width="90" height="250" rx="12" fill="#2a2a32" />
+        <rect x="232" y="286" width="16" height="50" fill="#3a3a45" />
+        <circle cx="240" cy="90" r="28" fill="#ff3344" />
+        <circle cx="240" cy="160" r="28" fill="#5a4a18" />
+        <circle cx="240" cy="230" r="28" fill="#1a4a22" />
+      </>
+    )),
   spiral: () =>
     frame("#16161d", (
       <path
