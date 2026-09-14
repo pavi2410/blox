@@ -1,5 +1,5 @@
 import { generate } from "@blox/blocks";
-import { Runtime, type RuntimeEvent } from "@blox/runtime";
+import { Runtime, type Insp, type RuntimeEvent } from "@blox/runtime";
 import { createSignal, createStore } from "solid-js";
 import { breakpointIds, onBreakpointsChange } from "./breakpoints";
 import { ws } from "./workspace";
@@ -22,7 +22,7 @@ export const [paused, setPaused] = createSignal(false);
 export const [speed, setSpeed] = createSignal(0);
 export const [ask, setAsk] = createSignal<Ask | null>(null);
 export const [logs, setLogs] = createStore<LogLine[]>([]);
-export const [vars, setVars] = createStore<Record<string, string>>({});
+export const [vars, setVars] = createStore<Record<string, Insp>>({});
 
 let runtime: Runtime | null = null;
 

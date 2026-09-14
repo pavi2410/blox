@@ -1,4 +1,5 @@
-import { fmt, post, sleep, yieldNow } from "./bridge";
+import { inspect, type Insp } from "../inspect";
+import { post, sleep, yieldNow } from "./bridge";
 
 let debug = false;
 let speed = 0;
@@ -45,8 +46,8 @@ function postVars(force = false) {
   const now = performance.now();
   if (!varsGetter || (!force && now - lastVars < 200)) return;
   lastVars = now;
-  const out: Record<string, string> = {};
-  for (const [k, v] of Object.entries(varsGetter())) out[k] = fmt(v);
+  const out: Record<string, Insp> = {};
+  for (const [k, v] of Object.entries(varsGetter())) out[k] = inspect(v);
   post({ type: "vars", vars: out });
 }
 

@@ -1,3 +1,5 @@
+import type { Insp } from "./inspect";
+
 export interface RunOptions {
   /** Debug mode: block highlighting, pause/step, breakpoints, variable snapshots, speed delay. */
   debug: boolean;
@@ -26,7 +28,7 @@ export type WorkerToHost =
   | { type: "highlight"; id: string | null }
   | { type: "paused"; id: string | null }
   | { type: "resumed" }
-  | { type: "vars"; vars: Record<string, string> }
+  | { type: "vars"; vars: Record<string, Insp> }
   | { type: "rpc"; id: number; method: string; args: unknown[] }
   | { type: "done"; ok: boolean };
 

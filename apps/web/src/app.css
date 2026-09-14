@@ -65,9 +65,19 @@ button.danger { background: var(--danger); }
 .ask label { color: var(--accent); }
 .ask input { flex: 1; background: var(--bg); color: var(--fg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font: inherit; }
 
-.var { display: flex; gap: 12px; padding: 2px 0; border-bottom: 1px solid var(--border); }
-.var .name { color: var(--accent); min-width: 80px; }
-.var .value { word-break: break-all; }
+.insp-row { display: flex; gap: 8px; align-items: baseline; padding: 1px 0; }
+.insp-twist {
+  background: transparent; padding: 0; min-width: 1.1em; color: var(--muted);
+  font: inherit; line-height: 1;
+}
+.insp-twist:hover { filter: none; color: var(--fg); }
+.insp-key { color: var(--accent); }
+.insp-sum { color: var(--muted); }
+.insp-prim.str { color: #66dd88; }
+.insp-prim.num { color: #4f8cff; }
+.insp-prim.bool { color: #c084fc; }
+.insp-prim.null, .insp-prim.undef { color: var(--muted); font-style: italic; }
+.insp-kids { margin: 0 0 0 6px; padding-left: 10px; border-left: 1px solid var(--border); }
 
 /* breakpoint marker on Blockly blocks */
 .blox-bp > .blocklyPath { stroke: var(--danger) !important; stroke-width: 3px !important; }
