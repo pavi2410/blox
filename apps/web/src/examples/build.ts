@@ -49,6 +49,9 @@ export const dset = (dict: In, key: string, value: In) =>
 export const getAt = (list: In, at: In): In => ({
   block: b("lists_getIndex", { MODE: "GET", WHERE: "FROM_START" }, { VALUE: list, AT: at }),
 });
+export const setAt = (list: In, at: In, value: In) =>
+  b("lists_setIndex", { MODE: "SET", WHERE: "FROM_START" }, { LIST: list, AT: at, TO: value });
+export const len = (list: In): In => ({ block: b("lists_length", undefined, { VALUE: list }) });
 export const append = (list: In, item: In) =>
   b("lists_setIndex", { MODE: "INSERT", WHERE: "LAST" }, { LIST: list, TO: item });
 
@@ -64,8 +67,9 @@ export const defn = (name: string, body: B, x: number, y: number): B => ({
 });
 export const call = (name: string) => b("procedures_callnoreturn", { NAME: name }, undefined, { name });
 
-export const forVar = (name: string, from: number, to: number, body: B) =>
-  b("controls_for", { VAR: { id: name } }, { FROM: num(from), TO: num(to), BY: num(1), DO: { block: body } });
+const nIn = (n: number | In): In => (typeof n === "number" ? num(n) : n);
+export const forVar = (name: string, from: number | In, to: number | In, body: B) =>
+  b("controls_for", { VAR: { id: name } }, { FROM: nIn(from), TO: nIn(to), BY: num(1), DO: { block: body } });
 export const each = (name: string, list: In, body: B) =>
   b("controls_forEach", { VAR: { id: name } }, { LIST: list, DO: { block: body } });
 
@@ -90,9 +94,13 @@ export const nums = (from: number, to: number, by = 1): In => ({
   block: b("lists_range", undefined, { FROM: num(from), TO: num(to), BY: num(by) }),
 });
 
-/** Chain statements into a linked list. */
+/** Chain statements into a linked list. Walks to each chain’s tail so nested seq() stays intact. */
 export const seq = (...blocks: B[]): B => {
-  for (let i = blocks.length - 2; i >= 0; i--) blocks[i].next = { block: blocks[i + 1] };
+  const tail = (b: B) => {
+    while (b.next) b = b.next.block;
+    return b;
+  };
+  for (let i = 0; i < blocks.length - 1; i++) tail(blocks[i]).next = { block: blocks[i + 1] };
   return blocks[0];
 };
 

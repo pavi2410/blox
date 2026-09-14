@@ -1,4 +1,5 @@
 import { breakout } from "./breakout";
+import { bubble } from "./sort";
 import { b, change, cmp, colour, hat, items, math, num, program, seq, set, txt, v, type In } from "./build";
 
 const join = (...ins: In[]) => items("text_join", ...ins);
@@ -132,4 +133,5 @@ export const examples: { name: string; state: object }[] = [
   { name: "Keyboard move", state: keys },
   { name: "Melody", state: melody },
   { name: "Breakout", state: breakout },
+  { name: "Bubble sort", state: bubble },
 ];
