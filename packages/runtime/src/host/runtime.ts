@@ -41,6 +41,7 @@ export class Runtime {
     };
     w.onerror = (e) => {
       this.#onEvent({ type: "log", level: "error", text: e.message });
+      this.#onEvent({ type: "highlight", id: null });
       this.#onEvent({ type: "done", ok: false });
       this.stop();
     };

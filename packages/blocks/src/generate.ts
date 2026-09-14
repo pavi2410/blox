@@ -8,9 +8,10 @@ import * as turtle from "./lib/turtle";
 import * as web from "./lib/web";
 
 const TICK = "await __tick(%1);\n";
+const MARK = "__at(%1);\n";
 
 js.addReservedWords(
-  ["__tick", "__vars", ...io.reserved, ...time.reserved, ...events.reserved, ...canvas.reserved, ...turtle.reserved, ...web.reserved].join(","),
+  ["__tick", "__at", "__vars", ...io.reserved, ...time.reserved, ...events.reserved, ...canvas.reserved, ...turtle.reserved, ...web.reserved].join(","),
 );
 
 // ---- async transform: procedures become async, calls are awaited ----
@@ -38,7 +39,7 @@ js.forBlock["procedures_callreturn"] = (b, g) => {
 let current: Blockly.Workspace | null = null;
 const origFinish = js.finish.bind(js);
 js.finish = (code: string) => {
-  if (current && js.STATEMENT_PREFIX) {
+  if (current && js.STATEMENT_PREFIX === TICK) {
     const entries = current
       .getVariableMap()
       .getAllVariables()
@@ -50,13 +51,13 @@ js.finish = (code: string) => {
 
 /**
  * - display: clean code for reading
- * - run:     loops yield via `await __tick(id)` so Stop/events stay responsive
+ * - run:     mark each statement (`__at`) + yield at loop heads so Stop/events stay responsive
  * - debug:   every statement ticks (highlight, pause, step, breakpoints) + variable snapshots
  */
 export type GenMode = "display" | "run" | "debug";
 
 export function generate(ws: Blockly.Workspace, mode: GenMode = "display"): string {
-  js.STATEMENT_PREFIX = mode === "debug" ? TICK : null;
+  js.STATEMENT_PREFIX = mode === "debug" ? TICK : mode === "run" ? MARK : null;
   js.INFINITE_LOOP_TRAP = mode === "display" ? null : TICK;
   current = ws;
   try {

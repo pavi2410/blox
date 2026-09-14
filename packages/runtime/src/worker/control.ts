@@ -12,6 +12,15 @@ let varsGetter: (() => Record<string, unknown>) | null = null;
 let lastYield = 0;
 let lastHighlight = 0;
 let lastVars = 0;
+let lastId: string | null = null;
+
+/** Record the current block id (run-mode `__at`, or debug `__tick`). */
+export const mark = (id?: string) => {
+  if (id !== undefined) lastId = id;
+};
+
+export const lastTick = () => lastId;
+export const resetTick = () => (lastId = null);
 
 export const setDebug = (on: boolean) => (debug = on);
 export const setSpeed = (ms: number) => (speed = ms);
@@ -52,6 +61,7 @@ async function block(id: string | null) {
 
 /** Cooperative scheduling point: loop heads in run mode, every statement in debug mode. */
 export async function tick(id?: string) {
+  mark(id);
   const now = performance.now();
 
   if (!debug) {

@@ -4,7 +4,7 @@ import { api } from "./api";
 import { initCanvas } from "./api/canvas";
 import { resetTurtle } from "./api/turtle";
 import { log, post, resolveRpc } from "./bridge";
-import { pause, resume, setBreakpoints, setDebug, setSpeed, step } from "./control";
+import { lastTick, pause, resetTick, resume, setBreakpoints, setDebug, setSpeed, step } from "./control";
 import { nextFrame, onKey, onPointer, runEvents } from "./events";
 
 const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor as FunctionConstructor;
@@ -14,12 +14,13 @@ const finish = async (ok: boolean, err?: unknown) => {
   if (finished) return;
   finished = true;
   if (err !== undefined) log(err instanceof Error ? err.message : String(err), "error");
-  post({ type: "highlight", id: null });
+  post({ type: "highlight", id: ok ? null : lastTick() });
   await nextFrame(); // let the last canvas frame commit before the host terminates us
   post({ type: "done", ok });
 };
 
 async function run(m: Extract<HostToWorker, { type: "run" }>) {
+  resetTick();
   setDebug(m.debug);
   setSpeed(m.speed);
   setBreakpoints(m.breakpoints);

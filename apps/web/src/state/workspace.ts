@@ -2,8 +2,7 @@ import { generate } from "@blox/blocks";
 import * as Blockly from "blockly/core";
 import { createSignal } from "solid-js";
 import { clearBreakpoints } from "./breakpoints";
-
-const KEY = "blox.workspace";
+import { currentState, saveCurrent } from "./projects";
 
 export let ws: Blockly.WorkspaceSvg | null = null;
 export const [code, setCode] = createSignal("");
@@ -16,16 +15,18 @@ const sync = (w: Blockly.WorkspaceSvg) => {
   setCanRedo(w.getRedoStack().length > 0);
 };
 
-const save = (w: Blockly.WorkspaceSvg) =>
-  localStorage.setItem(KEY, JSON.stringify(Blockly.serialization.workspaces.save(w)));
+const snapshot = (w: Blockly.WorkspaceSvg) => Blockly.serialization.workspaces.save(w);
+
+let saveTimer = 0;
+const persist = (w: Blockly.WorkspaceSvg) => {
+  clearTimeout(saveTimer);
+  saveTimer = window.setTimeout(() => saveCurrent(snapshot(w)), 200);
+};
 
 export const undo = () => ws?.undo(false);
 export const redo = () => ws?.undo(true);
 
-export const loadSaved = (): object | undefined => {
-  const raw = localStorage.getItem(KEY);
-  return raw ? JSON.parse(raw) : undefined;
-};
+export const initialState = (): object | undefined => currentState();
 
 export const onReady = (w: Blockly.WorkspaceSvg) => {
   ws = w;
@@ -34,31 +35,35 @@ export const onReady = (w: Blockly.WorkspaceSvg) => {
 
 export const onChange = (w: Blockly.WorkspaceSvg) => {
   sync(w);
-  save(w);
+  persist(w);
 };
 
 export const loadState = (state: object) => {
   if (!ws) return;
   clearBreakpoints();
   Blockly.serialization.workspaces.load(state, ws);
-  save(ws);
+  saveCurrent(state);
+};
+
+export const applyProject = (state: object | undefined) => {
+  if (!ws) return;
+  clearBreakpoints();
+  if (state && Object.keys(state).length) Blockly.serialization.workspaces.load(state, ws);
+  else ws.clear();
+  sync(ws);
 };
 
 export const clearWorkspace = () => {
   clearBreakpoints();
   ws?.clear();
-  localStorage.removeItem(KEY);
+  saveCurrent({});
 };
 
+export const workspaceState = () => (ws ? snapshot(ws) : currentState() ?? {});
+
 export const exportJson = () => {
-  if (!ws) return;
-  const blob = new Blob([JSON.stringify(Blockly.serialization.workspaces.save(ws), null, 2)], {
-    type: "application/json",
-  });
-  const a = Object.assign(document.createElement("a"), {
-    href: URL.createObjectURL(blob),
-    download: "blox-program.json",
-  });
+  const blob = new Blob([JSON.stringify(workspaceState(), null, 2)], { type: "application/json" });
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "blox-program.json" });
   a.click();
   URL.revokeObjectURL(a.href);
 };

@@ -36,9 +36,13 @@ button.primary { background: var(--accent); }
 button.danger { background: var(--danger); }
 
 /* layout */
-.main { display: grid; grid-template-columns: 1fr 480px; min-height: 0; }
+.main { display: grid; min-height: 0; }
 .editor { min-width: 0; min-height: 0; }
-.side { display: flex; flex-direction: column; border-left: 1px solid var(--border); background: var(--panel); min-height: 0; }
+.splitter { cursor: col-resize; background: var(--border); }
+.splitter:hover, .splitter:active { background: var(--accent); }
+.side { display: flex; flex-direction: column; background: var(--panel); min-width: 0; min-height: 0; overflow: hidden; }
+.projects { display: flex; align-items: center; gap: 4px; }
+.projects select { max-width: 160px; }
 
 /* stage */
 .stage { width: 100%; background: #fff; border-bottom: 1px solid var(--border); flex: none; }
@@ -68,3 +72,7 @@ button.danger { background: var(--danger); }
 
 /* breakpoint marker on Blockly blocks */
 .blox-bp > .blocklyPath { stroke: var(--danger) !important; stroke-width: 3px !important; }
+
+/* workspace search on dark theme */
+.blockly-ws-search { background: var(--panel) !important; border-color: var(--border) !important; box-shadow: none !important; color: var(--fg); }
+.blockly-ws-search input { background: var(--bg); color: var(--fg); border: 1px solid var(--border); }

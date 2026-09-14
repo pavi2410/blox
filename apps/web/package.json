@@ -16,6 +16,7 @@
     "@blox/runtime": "workspace:*",
     "@solidjs/web": "catalog:",
     "blockly": "catalog:",
+    "lz-string": "catalog:",
     "solid-js": "catalog:"
   },
   "devDependencies": {

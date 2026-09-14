@@ -1,5 +1,10 @@
+import { WorkspaceSearch } from "@blockly/plugin-workspace-search";
+import { Backpack } from "@blockly/workspace-backpack";
+import { ZoomToFitControl } from "@blockly/zoom-to-fit";
 import * as Blockly from "blockly/core";
 import { onSettled } from "solid-js";
+
+Blockly.ShortcutItems.registerNavigationShortcuts();
 
 export interface WorkspaceProps {
   toolbox: Blockly.utils.toolbox.ToolboxDefinition;
@@ -19,6 +24,13 @@ export function BlocklyWorkspace(props: WorkspaceProps) {
     const ws = Blockly.inject(el, { ...props.options, toolbox: props.toolbox });
     if (props.initialState) Blockly.serialization.workspaces.load(props.initialState, ws);
 
+    const search = new WorkspaceSearch(ws);
+    search.init();
+    const backpack = new Backpack(ws);
+    backpack.init();
+    const zoomToFit = new ZoomToFitControl(ws);
+    zoomToFit.init();
+
     ws.addChangeListener((e) => {
       if (e.isUiEvent || ws.isDragging()) return;
       props.onChange?.(ws);
@@ -30,6 +42,9 @@ export function BlocklyWorkspace(props: WorkspaceProps) {
     props.onReady?.(ws);
     return () => {
       ro.disconnect();
+      search.dispose();
+      backpack.dispose();
+      zoomToFit.dispose();
       ws.dispose();
     };
   });

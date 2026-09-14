@@ -1,4 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
+  // @blockly/workspace-backpack publishes types as TS source that fails verbatim imports
+  "compilerOptions": {
+    "verbatimModuleSyntax": false
+  },
   "include": ["src"]
 }

@@ -9,6 +9,11 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"
   },
+  "dependencies": {
+    "@blockly/plugin-workspace-search": "catalog:",
+    "@blockly/workspace-backpack": "catalog:",
+    "@blockly/zoom-to-fit": "catalog:"
+  },
   "peerDependencies": {
     "@solidjs/web": "catalog:",
     "blockly": "catalog:",

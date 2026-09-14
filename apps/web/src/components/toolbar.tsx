@@ -1,6 +1,7 @@
 import { Show } from "solid-js";
 import { examples } from "../examples";
 import { changeSpeed, debug, debugging, pause, paused, resume, run, running, speed, step, stop } from "../state/runner";
+import { Projects } from "./projects";
 import { canRedo, canUndo, clearWorkspace, exportJson, importJson, loadState, redo, undo } from "../state/workspace";
 
 export function Toolbar() {
@@ -46,6 +47,7 @@ export function Toolbar() {
       </Show>
 
       <span class="spacer" />
+      <Projects />
 
       <select
         value=""

@@ -9,7 +9,16 @@ catalogs:
     '@blockly/field-colour':
       specifier: ^13.3.0
       version: 13.3.0
+    '@blockly/plugin-workspace-search':
+      specifier: ^13.3.0
+      version: 13.3.0
     '@blockly/theme-dark':
+      specifier: ^13.3.0
+      version: 13.3.0
+    '@blockly/workspace-backpack':
+      specifier: ^13.3.0
+      version: 13.3.0
+    '@blockly/zoom-to-fit':
       specifier: ^13.3.0
       version: 13.3.0
     '@solidjs/vite-plugin':
@@ -21,6 +30,9 @@ catalogs:
     blockly:
       specifier: ^13.3.0
       version: 13.3.0
+    lz-string:
+      specifier: ^1.5.0
+      version: 1.5.0
     solid-js:
       specifier: 2.0.0-rc.8
       version: 2.0.0-rc.8
@@ -59,6 +71,9 @@ importers:
       blockly:
         specifier: 'catalog:'
         version: 13.3.0(jsdom@29.1.1)
+      lz-string:
+        specifier: 'catalog:'
+        version: 1.5.0
       solid-js:
         specifier: 'catalog:'
         version: 2.0.0-rc.8
@@ -87,6 +102,16 @@ importers:
         version: 7.0.2
 
   packages/editor:
+    dependencies:
+      '@blockly/plugin-workspace-search':
+        specifier: 'catalog:'
+        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+      '@blockly/workspace-backpack':
+        specifier: 'catalog:'
+        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+      '@blockly/zoom-to-fit':
+        specifier: 'catalog:'
+        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
     devDependencies:
       '@solidjs/web':
         specifier: 'catalog:'
@@ -219,8 +244,23 @@ packages:
     peerDependencies:
       blockly: ^13.2.0
 
+  '@blockly/plugin-workspace-search@13.3.0':
+    resolution: {integrity: sha512-YGdcuQcsyXM3KxhndUeegrksBPV5wgzvl+MHGPSTKw6xVA6Qm8GJlGbpw/DyaUwtdMaydUts4jOOH+X9Rn1Lew==}
+    peerDependencies:
+      blockly: ^13.2.0
+
   '@blockly/theme-dark@13.3.0':
     resolution: {integrity: sha512-0dGj2NINVoxdgKmbqm71Y/3+JL7+unbjXeHUWhvjCo3HB0k5tKnbTtW5HS3wVgdarI6OxhZo17t1om5tx8f4yg==}
+    peerDependencies:
+      blockly: ^13.2.0
+
+  '@blockly/workspace-backpack@13.3.0':
+    resolution: {integrity: sha512-bTkv79OLXdY+rpYYWX8ZJn+yed84+oWy3ew22j9cx9uFwdFCPxCPDuI8+5j1ipgzxokiGcMIcTkSmI80Lnfzdw==}
+    peerDependencies:
+      blockly: ^13.2.0
+
+  '@blockly/zoom-to-fit@13.3.0':
+    resolution: {integrity: sha512-uQUcVcTSTUxJCNZ/Hu/N9RhP2jZAQsYvJL2mkoL+UcBPZa32MDqcEUuX2RbYFKDHUCrX33eJlAvp6Un6J+ZUFw==}
     peerDependencies:
       blockly: ^13.2.0
 
@@ -812,6 +852,10 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
+  lz-string@1.5.0:
+    resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
+    hasBin: true
+
   mdn-data@2.27.1:
     resolution: {integrity: sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ==}
 
@@ -1151,7 +1195,19 @@ snapshots:
     dependencies:
       blockly: 13.3.0(jsdom@29.1.1)
 
+  '@blockly/plugin-workspace-search@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+    dependencies:
+      blockly: 13.3.0(jsdom@29.1.1)
+
   '@blockly/theme-dark@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+    dependencies:
+      blockly: 13.3.0(jsdom@29.1.1)
+
+  '@blockly/workspace-backpack@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+    dependencies:
+      blockly: 13.3.0(jsdom@29.1.1)
+
+  '@blockly/zoom-to-fit@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
     dependencies:
       blockly: 13.3.0(jsdom@29.1.1)
 
@@ -1585,6 +1641,8 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
+
+  lz-string@1.5.0: {}
 
   mdn-data@2.27.1: {}
 

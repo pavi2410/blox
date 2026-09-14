@@ -2,7 +2,7 @@ import DarkTheme from "@blockly/theme-dark";
 import { toolbox } from "@blox/blocks";
 import { BlocklyWorkspace } from "@blox/editor";
 import "../state/breakpoints";
-import { loadSaved, onChange, onReady } from "../state/workspace";
+import { initialState, onChange, onReady } from "../state/workspace";
 
 const options = {
   theme: DarkTheme,
@@ -18,7 +18,7 @@ export function Editor() {
       <BlocklyWorkspace
         toolbox={toolbox}
         options={options}
-        initialState={loadSaved()}
+        initialState={initialState()}
         onReady={onReady}
         onChange={onChange}
       />
