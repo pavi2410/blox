@@ -17,6 +17,20 @@ const thumbs: Record<string, () => JSX.Element> = {
         <rect x="114" y="192" width="88" height="32" rx="6" fill="#4f8cff" />
       </>
     )),
+  cafe: () =>
+    frame("#16161d", (
+      <>
+        <rect x="48" y="36" width="384" height="288" rx="12" fill="#26262e" />
+        <rect x="72" y="56" width="140" height="12" rx="3" fill="#8a8a96" />
+        <rect x="72" y="88" width="160" height="36" rx="6" fill="#4f8cff" />
+        <rect x="248" y="88" width="160" height="36" rx="6" fill="#4f8cff" />
+        <rect x="72" y="136" width="160" height="36" rx="6" fill="#66dd88" />
+        <rect x="248" y="136" width="160" height="36" rx="6" fill="#66dd88" />
+        <rect x="72" y="200" width="336" height="10" rx="3" fill="#3a3a45" />
+        <rect x="72" y="248" width="100" height="36" rx="6" fill="#ffaa44" />
+        <rect x="188" y="248" width="100" height="36" rx="6" fill="#3a3a45" />
+      </>
+    )),
   spiral: () =>
     frame("#16161d", (
       <path
