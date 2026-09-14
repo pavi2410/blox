@@ -25,8 +25,17 @@ export const b = (
 };
 
 export const bool = (on: boolean): In => ({ block: b("logic_boolean", { BOOL: on ? "TRUE" : "FALSE" }) });
-export const and = (a: In, c: In): In => ({ block: b("logic_operation", { OP: "AND" }, { A: a, B: c }) });
-export const or = (a: In, c: In): In => ({ block: b("logic_operation", { OP: "OR" }, { A: a, B: c }) });
+const slot = (i: number) => String.fromCharCode(65 + i);
+const logicOp = (op: string, ins: In[]): In => ({
+  block: b(
+    "logic_operation",
+    { OP: op },
+    Object.fromEntries(ins.map((it, i) => [slot(i), it])),
+    ins.length > 2 ? { itemCount: ins.length } : undefined,
+  ),
+});
+export const and = (...ins: In[]): In => logicOp("AND", ins);
+export const or = (...ins: In[]): In => logicOp("OR", ins);
 export const iff = (cond: In, then: B, els?: B) =>
   els
     ? b("controls_if", undefined, { IF0: cond, DO0: { block: then }, ELSE: { block: els } }, { hasElse: true })

@@ -114,16 +114,19 @@ const movePaddle = defn(
 );
 
 const hitPaddle = and(
-  and(cmp("GTE", v("by"), num(316)), cmp("LTE", v("by"), num(340))),
-  and(and(cmp("GTE", v("bx"), v("px")), cmp("LTE", v("bx"), math("ADD", v("px"), num(80)))), cmp("GT", v("dy"), num(0))),
+  cmp("GTE", v("by"), num(316)),
+  cmp("LTE", v("by"), num(340)),
+  cmp("GTE", v("bx"), v("px")),
+  cmp("LTE", v("bx"), math("ADD", v("px"), num(80))),
+  cmp("GT", v("dy"), num(0)),
 );
 
 const hitBrick = and(
   live,
-  and(
-    and(cmp("GTE", v("bx"), math("MINUS", brickX, num(8))), cmp("LTE", v("bx"), math("ADD", brickX, num(80)))),
-    and(cmp("GTE", v("by"), math("MINUS", brickY, num(8))), cmp("LTE", v("by"), math("ADD", brickY, num(26)))),
-  ),
+  cmp("GTE", v("bx"), math("MINUS", brickX, num(8))),
+  cmp("LTE", v("bx"), math("ADD", brickX, num(80))),
+  cmp("GTE", v("by"), math("MINUS", brickY, num(8))),
+  cmp("LTE", v("by"), math("ADD", brickY, num(26))),
 );
 
 const bounce = defn(
