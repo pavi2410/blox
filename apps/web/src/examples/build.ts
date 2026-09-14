@@ -83,6 +83,12 @@ export const change = (name: string, by: number | In) =>
   b("math_change", { VAR: { id: name } }, { DELTA: typeof by === "number" ? num(by) : by });
 export const math = (op: string, a: In, c: In): In => ({ block: b("math_arithmetic", { OP: op }, { A: a, B: c }) });
 export const cmp = (op: string, a: In, c: In): In => ({ block: b("logic_compare", { OP: op }, { A: a, B: c }) });
+export const between = (value: In, lo: In, hi: In): In => ({
+  block: b("logic_between", undefined, { VALUE: value, LOW: lo, HIGH: hi }),
+});
+export const nums = (from: number, to: number, by = 1): In => ({
+  block: b("lists_range", undefined, { FROM: num(from), TO: num(to), BY: num(by) }),
+});
 
 /** Chain statements into a linked list. */
 export const seq = (...blocks: B[]): B => {

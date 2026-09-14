@@ -1,5 +1,6 @@
 import * as Blockly from "blockly/core";
 import { javascriptGenerator, Order } from "blockly/javascript";
+import { define, val } from "../util";
 
 /** n-ary and/or, same mutator pattern as text_join. First two slots stay A/B. */
 
@@ -137,3 +138,33 @@ javascriptGenerator.forBlock["logic_operation"] = (block, gen) => {
   if (parts.length === 1) return [parts[0], order];
   return [parts.join(` ${op} `), order];
 };
+
+define([
+  {
+    json: {
+      type: "logic_between",
+      message0: "is %1 between %2 and %3",
+      args0: [
+        { type: "input_value", name: "VALUE", check: "Number" },
+        { type: "input_value", name: "LOW", check: "Number" },
+        { type: "input_value", name: "HIGH", check: "Number" },
+      ],
+      inputsInline: true,
+      output: "Boolean",
+      style: "logic_blocks",
+      tooltip: "True if the value is inside the two bounds, inclusive either order.",
+    },
+    js: (b, g) => {
+      const fn = g.provideFunction_("logicBetween", [
+        `function ${g.FUNCTION_NAME_PLACEHOLDER_}(n, a, b) {`,
+        "  return n >= Math.min(a, b) && n <= Math.max(a, b);",
+        "}",
+      ]);
+      return [
+        `${fn}(${val(b, g, "VALUE", "0")}, ${val(b, g, "LOW", "0")}, ${val(b, g, "HIGH", "0")})`,
+        Order.FUNCTION_CALL,
+      ];
+    },
+  },
+]);
+

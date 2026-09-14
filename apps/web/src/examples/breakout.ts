@@ -2,6 +2,7 @@ import {
   and,
   append,
   b,
+  between,
   bool,
   call,
   change,
@@ -114,19 +115,15 @@ const movePaddle = defn(
 );
 
 const hitPaddle = and(
-  cmp("GTE", v("by"), num(316)),
-  cmp("LTE", v("by"), num(340)),
-  cmp("GTE", v("bx"), v("px")),
-  cmp("LTE", v("bx"), math("ADD", v("px"), num(80))),
+  between(v("by"), num(316), num(340)),
+  between(v("bx"), v("px"), math("ADD", v("px"), num(80))),
   cmp("GT", v("dy"), num(0)),
 );
 
 const hitBrick = and(
   live,
-  cmp("GTE", v("bx"), math("MINUS", brickX, num(8))),
-  cmp("LTE", v("bx"), math("ADD", brickX, num(80))),
-  cmp("GTE", v("by"), math("MINUS", brickY, num(8))),
-  cmp("LTE", v("by"), math("ADD", brickY, num(26))),
+  between(v("bx"), math("MINUS", brickX, num(8)), math("ADD", brickX, num(80))),
+  between(v("by"), math("MINUS", brickY, num(8)), math("ADD", brickY, num(26))),
 );
 
 const bounce = defn(
