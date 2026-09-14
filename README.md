@@ -17,6 +17,8 @@ pnpm dev
 
 Node 22+.
 
+Workers Builds (Cloudflare dashboard): build `pnpm --filter @blox/web build`, deploy `npx wrangler deploy`, root `/`.
+
 <p align="center">
   <img src="docs/gallery.png" alt="Example gallery" width="100%" />
 </p>

@@ -2,6 +2,10 @@ packages:
   - apps/*
   - packages/*
 
+allowBuilds:
+  esbuild: true
+  workerd: true
+
 catalog:
   blockly: ^13.3.0
   solid-js: 2.0.0-rc.8
@@ -16,3 +20,4 @@ catalog:
   "@blockly/zoom-to-fit": ^13.3.0
   "@blockly/block-dynamic-connection": ^13.3.0
   lz-string: ^1.5.0
+  wrangler: ^4.127.0
