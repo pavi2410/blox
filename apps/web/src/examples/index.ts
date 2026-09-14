@@ -132,12 +132,14 @@ const melody = program(
   },
 );
 
-export const examples: { name: string; state: object }[] = [
-  { name: "Hello & ask", state: hello },
-  { name: "Turtle spiral", state: spiral },
-  { name: "Bouncing ball", state: ball },
-  { name: "Keyboard move", state: keys },
-  { name: "Melody", state: melody },
-  { name: "Breakout", state: breakout },
-  { name: "Bubble sort", state: bubble },
+export type Example = { id: string; name: string; state: object };
+
+export const examples: Example[] = [
+  { id: "hello", name: "Hello & ask", state: hello },
+  { id: "spiral", name: "Turtle spiral", state: spiral },
+  { id: "ball", name: "Bouncing ball", state: ball },
+  { id: "keys", name: "Keyboard move", state: keys },
+  { id: "melody", name: "Melody", state: melody },
+  { id: "breakout", name: "Breakout", state: breakout },
+  { id: "sort", name: "Bubble sort", state: bubble },
 ];

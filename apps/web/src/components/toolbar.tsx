@@ -1,10 +1,12 @@
-import { Show } from "solid-js";
-import { examples } from "../examples";
+import { Show, createSignal } from "solid-js";
 import { changeSpeed, debug, debugging, pause, paused, resume, run, running, speed, step, stop } from "../state/runner";
+import { Gallery } from "./gallery";
 import { Projects } from "./projects";
 import { canRedo, canUndo, clearWorkspace, exportJson, importJson, loadState, redo, undo } from "../state/workspace";
 
 export function Toolbar() {
+  const [gallery, setGallery] = createSignal(false);
+
   return (
     <header class="toolbar">
       <span class="brand">Blox</span>
@@ -49,20 +51,22 @@ export function Toolbar() {
       <span class="spacer" />
       <Projects />
 
-      <select
-        value=""
-        onChange={(e) => {
-          const ex = examples[Number(e.currentTarget.value)];
-          if (ex && confirm(`Load "${ex.name}"? This replaces the current workspace.`)) loadState(ex.state);
-          e.currentTarget.value = "";
-        }}
-      >
-        <option value="" disabled>Examples…</option>
-        {examples.map((ex, i) => <option value={i}>{ex.name}</option>)}
-      </select>
+      <button onClick={() => setGallery(true)}>Examples</button>
       <button onClick={importJson}>Import</button>
       <button onClick={exportJson}>Export</button>
       <button onClick={() => confirm("Clear workspace?") && clearWorkspace()}>Clear</button>
+
+      <Show when={gallery()}>
+        <Gallery
+          onClose={() => setGallery(false)}
+          onPick={(ex) => {
+            if (!confirm(`Load "${ex.name}"? This replaces the current workspace.`)) return;
+            if (running()) stop();
+            loadState(ex.state);
+            setGallery(false);
+          }}
+        />
+      </Show>
     </header>
   );
 }
