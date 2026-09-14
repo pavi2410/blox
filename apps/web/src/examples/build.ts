@@ -11,11 +11,54 @@ export interface B {
 }
 export type In = { block?: B; shadow?: B };
 
-export const b = (type: string, fields?: Record<string, unknown>, inputs?: Record<string, In>): B => ({
-  type,
-  fields,
-  inputs,
+export const b = (
+  type: string,
+  fields?: Record<string, unknown>,
+  inputs?: Record<string, In>,
+  extraState?: unknown,
+): B => {
+  const out: B = { type };
+  if (fields) out.fields = fields;
+  if (inputs) out.inputs = inputs;
+  if (extraState !== undefined) out.extraState = extraState;
+  return out;
+};
+
+export const bool = (on: boolean): In => ({ block: b("logic_boolean", { BOOL: on ? "TRUE" : "FALSE" }) });
+export const and = (a: In, c: In): In => ({ block: b("logic_operation", { OP: "AND" }, { A: a, B: c }) });
+export const or = (a: In, c: In): In => ({ block: b("logic_operation", { OP: "OR" }, { A: a, B: c }) });
+export const iff = (cond: In, then: B, els?: B) =>
+  els
+    ? b("controls_if", undefined, { IF0: cond, DO0: { block: then }, ELSE: { block: els } }, { hasElse: true })
+    : b("controls_if", undefined, { IF0: cond, DO0: { block: then } });
+
+export const emptyList = (): In => ({ block: b("lists_create_with", undefined, undefined, { itemCount: 0 }) });
+export const emptyDict = (): In => ({ block: b("dict_create") });
+export const dget = (dict: In, key: string): In => ({ block: b("dict_get", undefined, { KEY: txt(key), DICT: dict }) });
+export const dset = (dict: In, key: string, value: In) =>
+  b("dict_set", undefined, { KEY: txt(key), DICT: dict, VALUE: value });
+export const getAt = (list: In, at: In): In => ({
+  block: b("lists_getIndex", { MODE: "GET", WHERE: "FROM_START" }, { VALUE: list, AT: at }),
 });
+export const append = (list: In, item: In) =>
+  b("lists_setIndex", { MODE: "INSERT", WHERE: "LAST" }, { LIST: list, TO: item });
+
+export const constrain = (value: In, lo: number, hi: number): In => ({
+  block: b("math_constrain", undefined, { VALUE: value, LOW: num(lo), HIGH: num(hi) }),
+});
+export const keyDown = (key: string): In => ({ block: b("input_key", { KEY: key }) });
+
+export const defn = (name: string, body: B, x: number, y: number): B => ({
+  ...b("procedures_defnoreturn", { NAME: name }, { STACK: { block: body } }),
+  x,
+  y,
+});
+export const call = (name: string) => b("procedures_callnoreturn", { NAME: name }, undefined, { name });
+
+export const forVar = (name: string, from: number, to: number, body: B) =>
+  b("controls_for", { VAR: { id: name } }, { FROM: num(from), TO: num(to), BY: num(1), DO: { block: body } });
+export const each = (name: string, list: In, body: B) =>
+  b("controls_forEach", { VAR: { id: name } }, { LIST: list, DO: { block: body } });
 
 /** Variadic block (text_join / lists_create_with) with ADD0..n inputs. */
 export const items = (type: string, ...ins: In[]): In => ({
