@@ -1,6 +1,6 @@
 import { breakout } from "./breakout";
 import { bubble } from "./sort";
-import { b, change, cmp, colour, hat, items, math, num, program, seq, set, txt, v, type In } from "./build";
+import { b, between, change, colour, hat, iff, items, math, num, program, seq, set, stage, txt, v, type In } from "./build";
 
 const join = (...ins: In[]) => items("text_join", ...ins);
 
@@ -47,28 +47,34 @@ const spiral = program(
   },
 );
 
-const bounce = (axis: "x" | "y", d: "dx" | "dy", max: number) =>
-  b("controls_if", undefined, {
-    IF0: {
-      block: b("logic_operation", { OP: "OR" }, {
-        A: cmp("LT", v(axis), num(20)),
-        B: cmp("GT", v(axis), num(max - 20)),
-      }),
-    },
-    DO0: { block: set(d, { block: b("math_single", { OP: "NEG" }, { NUM: v(d) }) }) },
-  });
+const not = (x: In): In => ({ block: b("logic_negate", undefined, { BOOL: x }) });
+
+const bounce = (axis: "x" | "y", d: "dx" | "dy", dim: "width" | "height") =>
+  iff(
+    not(between(v(axis), num(20), math("MINUS", stage(dim), num(20)))),
+    set(d, { block: b("math_single", { OP: "NEG" }, { NUM: v(d) }) }),
+  );
 
 const ball = program(
   ["x", "y", "dx", "dy"],
-  { ...seq(set("x", num(240)), set("y", num(180)), set("dx", num(4)), set("dy", num(3))), x: 20, y: 20 },
+  {
+    ...seq(
+      set("x", math("DIVIDE", stage("width"), num(2))),
+      set("y", math("DIVIDE", stage("height"), num(2))),
+      set("dx", num(4)),
+      set("dy", num(3)),
+    ),
+    x: 20,
+    y: 20,
+  },
   hat(
     "events_frame",
     seq(
       b("canvas_clear", undefined, { COLOUR: colour("#1e1e24") }),
       change("x", v("dx")),
       change("y", v("dy")),
-      bounce("x", "dx", 480),
-      bounce("y", "dy", 360),
+      bounce("x", "dx", "width"),
+      bounce("y", "dy", "height"),
       b("canvas_fill", undefined, { COLOUR: colour("#4f8cff") }),
       b("canvas_circle", { MODE: "fill" }, { X: v("x"), Y: v("y"), R: num(20) }),
     ),

@@ -93,6 +93,7 @@ export const between = (value: In, lo: In, hi: In): In => ({
 export const nums = (from: number, to: number, by = 1): In => ({
   block: b("lists_range", undefined, { FROM: num(from), TO: num(to), BY: num(by) }),
 });
+export const stage = (dim: "width" | "height"): In => ({ block: b("canvas_size", { DIM: dim }) });
 
 /** Chain statements into a linked list. Walks to each chain’s tail so nested seq() stays intact. */
 export const seq = (...blocks: B[]): B => {
