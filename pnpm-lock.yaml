@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@blockly/block-dynamic-connection':
+      specifier: ^13.3.0
+      version: 13.3.0
     '@blockly/field-colour':
       specifier: ^13.3.0
       version: 13.3.0
@@ -90,6 +93,9 @@ importers:
 
   packages/blocks:
     dependencies:
+      '@blockly/block-dynamic-connection':
+        specifier: 'catalog:'
+        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
       '@blockly/field-colour':
         specifier: 'catalog:'
         version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
@@ -103,6 +109,9 @@ importers:
 
   packages/editor:
     dependencies:
+      '@blockly/block-dynamic-connection':
+        specifier: 'catalog:'
+        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
       '@blockly/plugin-workspace-search':
         specifier: 'catalog:'
         version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
@@ -233,6 +242,11 @@ packages:
   '@babel/types@7.29.8':
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
+
+  '@blockly/block-dynamic-connection@13.3.0':
+    resolution: {integrity: sha512-OKPlFtMyDJyJyEm2E5tB3lZmIzd9BUCgycYdrZk5VG22NkUOc11hjobX6Ofi35zG23bByASk+TCl0/wEeis1PQ==}
+    peerDependencies:
+      blockly: ^13.2.0
 
   '@blockly/field-colour@13.3.0':
     resolution: {integrity: sha512-5Gm9dAyY3psU/JbEPh2CcWJ/01WtfxHV06PO3kYLGeStkr/eaZZD+AvnuBd7Q2opKh3X8uDvnceqrjgp3S7UvA==}
@@ -1185,6 +1199,10 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.29.7
       '@babel/helper-validator-identifier': 7.29.7
+
+  '@blockly/block-dynamic-connection@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+    dependencies:
+      blockly: 13.3.0(jsdom@29.1.1)
 
   '@blockly/field-colour@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
     dependencies:

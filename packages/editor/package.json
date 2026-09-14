@@ -12,7 +12,8 @@
   "dependencies": {
     "@blockly/plugin-workspace-search": "catalog:",
     "@blockly/workspace-backpack": "catalog:",
-    "@blockly/zoom-to-fit": "catalog:"
+    "@blockly/zoom-to-fit": "catalog:",
+    "@blockly/block-dynamic-connection": "catalog:"
   },
   "peerDependencies": {
     "@solidjs/web": "catalog:",

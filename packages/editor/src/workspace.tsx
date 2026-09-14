@@ -1,3 +1,4 @@
+import { decoratePreviewer, finalizeConnections } from "@blockly/block-dynamic-connection";
 import { WorkspaceSearch } from "@blockly/plugin-workspace-search";
 import { Backpack } from "@blockly/workspace-backpack";
 import { ZoomToFitControl } from "@blockly/zoom-to-fit";
@@ -21,7 +22,14 @@ export function BlocklyWorkspace(props: WorkspaceProps) {
   let el!: HTMLDivElement;
 
   onSettled(() => {
-    const ws = Blockly.inject(el, { ...props.options, toolbox: props.toolbox });
+    const ws = Blockly.inject(el, {
+      ...props.options,
+      toolbox: props.toolbox,
+      plugins: {
+        ...props.options?.plugins,
+        connectionPreviewer: decoratePreviewer(),
+      },
+    });
     if (props.initialState) Blockly.serialization.workspaces.load(props.initialState, ws);
 
     const search = new WorkspaceSearch(ws);
@@ -30,6 +38,8 @@ export function BlocklyWorkspace(props: WorkspaceProps) {
     backpack.init();
     const zoomToFit = new ZoomToFitControl(ws);
     zoomToFit.init();
+
+    ws.addChangeListener(finalizeConnections);
 
     ws.addChangeListener((e) => {
       if (e.isUiEvent || ws.isDragging()) return;

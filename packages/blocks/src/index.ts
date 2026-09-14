@@ -1,6 +1,7 @@
 import "blockly/blocks";
 import { installAllBlocks as installColourBlocks } from "@blockly/field-colour";
 import { javascriptGenerator } from "blockly/javascript";
+import "./lib/dynamic";
 import "./lib/logic";
 
 installColourBlocks({ javascript: javascriptGenerator });

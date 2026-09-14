@@ -17,6 +17,7 @@
     "typescript": "catalog:"
   },
   "dependencies": {
+    "@blockly/block-dynamic-connection": "catalog:",
     "@blockly/field-colour": "catalog:"
   }
 }
