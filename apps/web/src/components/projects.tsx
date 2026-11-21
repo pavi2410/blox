@@ -1,8 +1,9 @@
 import { For, Show, createSignal } from "solid-js";
 import { current, currentId, newProject, openProject, projects, removeProject, renameProject, shareUrl } from "../state/projects";
 import { running, stop } from "../state/runner";
-import { applyProject, flushSave, workspaceState } from "../state/workspace";
+import { applyProject, exportJson, flushSave, importJson, workspaceState } from "../state/workspace";
 import { confirmDialog, promptDialog, toast } from "../state/dialogs";
+import { Icon } from "./icon";
 import { Modal } from "./modal";
 import { Preview } from "./preview";
 
@@ -37,14 +38,27 @@ export function Projects() {
 
   return (
     <>
-      <button class="projects-btn" onClick={() => setOpen(true)} title="Projects">
-        {current()?.name ?? "Projects"}
+      <button class="projects-btn ghost" onClick={() => setOpen(true)} title="Projects">
+        <span>{current()?.name ?? "Projects"}</span>
+        <Icon name="chevronDown" size={14} />
       </button>
       <Show when={open()}>
         <Modal
           title="Projects"
           onClose={() => setOpen(false)}
-          extra={<button onClick={() => void create()}>New</button>}
+          extra={
+            <>
+              <button class="ghost" onClick={importJson} title="Replace this project's blocks with a .json file">
+                Import
+              </button>
+              <button class="ghost" onClick={exportJson} title="Download this project as .json">
+                Export
+              </button>
+              <button class="primary" onClick={() => void create()}>
+                New
+              </button>
+            </>
+          }
         >
           <div class="gallery">
             <For each={projects()}>

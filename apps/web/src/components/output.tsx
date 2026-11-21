@@ -1,4 +1,4 @@
-import { For, Switch, Match, createSignal } from "solid-js";
+import { For, Match, Show, Switch, createSignal } from "solid-js";
 import { clearLogs, vars } from "../state/runner";
 import { code } from "../state/workspace";
 import { Console } from "./console";
@@ -25,7 +25,9 @@ export function Output() {
           )}
         </For>
         <span class="spacer" />
-        <button onClick={clearLogs}>Clear</button>
+        <Show when={tab() === "console"}>
+          <button class="ghost" onClick={clearLogs}>Clear</button>
+        </Show>
       </nav>
       <Switch>
         <Match when={tab() === "console"}><Console /></Match>

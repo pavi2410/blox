@@ -19,7 +19,23 @@ export const [mode, setMode] = createSignal<Mode>("idle");
 export const running = () => mode() !== "idle";
 export const debugging = () => mode() === "debug";
 export const [paused, setPaused] = createSignal(false);
-export const [speed, setSpeed] = createSignal(0);
+/** Debug delay per block, in ms. */
+export const SPEEDS = [
+  { label: "Slow", ms: 500 },
+  { label: "Normal", ms: 150 },
+  { label: "Fast", ms: 40 },
+  { label: "Instant", ms: 0 },
+] as const;
+const SPEED_KEY = "blox.speed";
+const savedSpeed = () => {
+  try {
+    const n = Number(localStorage.getItem(SPEED_KEY) ?? NaN);
+    return SPEEDS.some((s) => s.ms === n) ? n : 150;
+  } catch {
+    return 150;
+  }
+};
+export const [speed, setSpeed] = createSignal(savedSpeed());
 export const [ask, setAsk] = createSignal<Ask | null>(null);
 export const [logs, setLogs] = createStore<LogLine[]>([]);
 export const [vars, setVars] = createStore<Record<string, Insp>>({});
@@ -86,6 +102,11 @@ export const step = () => runtime?.step();
 export const changeSpeed = (ms: number) => {
   setSpeed(ms);
   runtime?.setSpeed(ms);
+  try {
+    localStorage.setItem(SPEED_KEY, String(ms));
+  } catch {
+    // storage unavailable; the choice just won't persist
+  }
 };
 
 export const answer = (text: string) => {
