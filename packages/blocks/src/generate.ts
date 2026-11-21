@@ -1,4 +1,4 @@
-import type * as Blockly from "blockly/core";
+import * as Blockly from "blockly/core";
 import { javascriptGenerator as js, Order } from "blockly/javascript";
 import * as canvas from "./lib/canvas";
 import * as events from "./lib/events";
@@ -42,10 +42,10 @@ let current: Blockly.Workspace | null = null;
 const origFinish = js.finish.bind(js);
 js.finish = (code: string) => {
   if (current && js.STATEMENT_PREFIX === TICK) {
-    const entries = current
-      .getVariableMap()
-      .getAllVariables()
-      .map((v) => `${JSON.stringify(v.getName())}: ${js.getVariableName(v.getId())}`);
+    // Only variables the generator actually declared; unused ones would be a ReferenceError.
+    const entries = Blockly.Variables.allUsedVarModels(current).map(
+      (v) => `${JSON.stringify(v.getName())}: ${js.getVariableName(v.getId())}`,
+    );
     if (entries.length) code += `\n__vars(() => ({ ${entries.join(", ")} }));\n`;
   }
   return origFinish(code);
