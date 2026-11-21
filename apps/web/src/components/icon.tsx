@@ -36,6 +36,18 @@ const paths = {
     </>
   ),
   close: () => <path d="M6 6l12 12M18 6 6 18" />,
+  popout: () => (
+    <>
+      <rect x="3" y="7" width="14" height="14" rx="2" />
+      <path d="M10 3h11v11M21 3l-9 9" />
+    </>
+  ),
+  newTab: () => (
+    <>
+      <path d="M14 4h6v6M20 4l-8 8" />
+      <path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" />
+    </>
+  ),
   trash: () => <path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />,
   chevronRight: () => <path d="m9 6 6 6-6 6" />,
   chevronDown: () => <path d="m6 9 6 6 6-6" />,

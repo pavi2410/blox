@@ -77,7 +77,27 @@ select.speed { padding: 6px 8px; font-size: 13px; }
   position: relative; width: 100%; aspect-ratio: 4 / 3;
   flex: none; background: #fff; border-bottom: 1px solid var(--border);
 }
+.stage-slot { flex: none; }
 .stage { position: absolute; inset: 0; }
+
+/* pop-out buttons: tucked into the stage corner, shown on hover/focus */
+.stage-tools {
+  position: absolute; top: 6px; right: 6px; z-index: 3;
+  display: flex; gap: 4px;
+  opacity: 0; transition: opacity 0.15s;
+}
+.stage-col:hover .stage-tools, .stage-tools:focus-within { opacity: 1; }
+.stage-tools button { background: #000a; padding: 5px; }
+.popout .stage-tools { display: none; }
+
+.stage-away {
+  display: flex; align-items: center; gap: 6px; flex: none;
+  padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--muted);
+}
+
+/* the stage on its own in a pop-out window/tab: as large as fits, 4:3 */
+body.popout { display: grid; place-items: center; overflow: hidden; }
+.popout .stage-col { width: min(100vw, calc(100vh * 4 / 3)); border: 0; }
 .stage:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
 
 .ui-panel {
