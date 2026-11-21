@@ -2,6 +2,7 @@ import { Show, createSignal } from "solid-js";
 import { changeSpeed, debug, debugging, pause, paused, resume, run, running, speed, step, stop } from "../state/runner";
 import { Gallery } from "./gallery";
 import { Projects } from "./projects";
+import { confirmDialog } from "../state/dialogs";
 import { canRedo, canUndo, clearWorkspace, exportJson, importJson, loadState, redo, undo } from "../state/workspace";
 
 export function Toolbar() {
@@ -54,13 +55,19 @@ export function Toolbar() {
       <button onClick={() => setGallery(true)}>Examples</button>
       <button onClick={importJson}>Import</button>
       <button onClick={exportJson}>Export</button>
-      <button onClick={() => confirm("Clear workspace?") && clearWorkspace()}>Clear</button>
+      <button
+        onClick={async () => {
+          if (await confirmDialog("Clear workspace?", { okLabel: "Clear", danger: true })) clearWorkspace();
+        }}
+      >
+        Clear
+      </button>
 
       <Show when={gallery()}>
         <Gallery
           onClose={() => setGallery(false)}
-          onPick={(ex) => {
-            if (!confirm(`Load "${ex.name}"? This replaces the current workspace.`)) return;
+          onPick={async (ex) => {
+            if (!(await confirmDialog(`Load "${ex.name}"? This replaces the current workspace.`, { okLabel: "Load" }))) return;
             if (running()) stop();
             loadState(ex.state);
             setGallery(false);

@@ -2,6 +2,7 @@ import { For, Show, createSignal } from "solid-js";
 import { current, currentId, newProject, openProject, projects, removeProject, renameProject, shareUrl } from "../state/projects";
 import { running, stop } from "../state/runner";
 import { applyProject, flushSave, workspaceState } from "../state/workspace";
+import { confirmDialog, promptDialog, toast } from "../state/dialogs";
 import { Modal } from "./modal";
 import { Preview } from "./preview";
 
@@ -25,7 +26,7 @@ export function Projects() {
   const [open, setOpen] = createSignal(false);
 
   const create = async () => {
-    const name = prompt("Project name", "Untitled");
+    const name = await promptDialog("Project name", "Untitled");
     if (!name) return;
     flushSave();
     if (running()) stop();
@@ -58,8 +59,8 @@ export function Projects() {
                   </button>
                   <div class="gallery-actions">
                     <button
-                      onClick={() => {
-                        const name = prompt("Rename project", p.name);
+                      onClick={async () => {
+                        const name = await promptDialog("Rename project", p.name);
                         if (name) void renameProject(p.id, name);
                       }}
                     >
@@ -68,15 +69,15 @@ export function Projects() {
                     <button
                       onClick={() => {
                         shareUrl(p.id === currentId() ? workspaceState() : p.state);
-                        alert("Share URL copied to clipboard");
+                        toast("Share URL copied to clipboard");
                       }}
                     >
                       Share
                     </button>
                     <button
                       class="danger"
-                      onClick={() => {
-                        if (!confirm(`Delete "${p.name}"?`)) return;
+                      onClick={async () => {
+                        if (!(await confirmDialog(`Delete "${p.name}"?`, { okLabel: "Delete", danger: true }))) return;
                         const was = p.id === currentId();
                         void removeProject(p.id).then(() => {
                           if (was) applyProject(current()?.state);

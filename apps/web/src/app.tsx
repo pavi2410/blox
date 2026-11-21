@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js";
+import { Dialogs } from "./components/dialogs";
 import { Editor } from "./components/editor";
 import { Output } from "./components/output";
 import { Splitter } from "./components/splitter";
@@ -26,6 +27,7 @@ export function App() {
           <Output />
         </aside>
       </main>
+      <Dialogs />
     </div>
   );
 }
