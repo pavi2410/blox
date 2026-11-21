@@ -1,30 +1,20 @@
-import { onSettled } from "solid-js";
 import type { JSX } from "@solidjs/web";
-import { Icon } from "./icon";
+import { IconButton } from "./button";
+import { Overlay } from "./overlay";
 
 export function Modal(props: { title: string; onClose: () => void; extra?: JSX.Element; children: JSX.Element }) {
-  onSettled(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") props.onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  });
-
   return (
-    <div class="modal-back" onClick={props.onClose}>
-      <div class="modal" role="dialog" aria-labelledby="modal-title" onClick={(e) => e.stopPropagation()}>
+    <Overlay onClose={props.onClose}>
+      <div class="modal" role="dialog" aria-labelledby="modal-title">
         <header class="modal-head">
           <h2 id="modal-title">{props.title}</h2>
           <div class="modal-head-right">
             {props.extra}
-            <button class="icon" onClick={props.onClose} title="Close" aria-label="Close">
-              <Icon name="close" />
-            </button>
+            <IconButton icon="close" label="Close" onClick={props.onClose} />
           </div>
         </header>
         {props.children}
       </div>
-    </div>
+    </Overlay>
   );
 }

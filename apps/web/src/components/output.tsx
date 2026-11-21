@@ -1,6 +1,7 @@
 import { For, Match, Show, Switch, createSignal } from "solid-js";
 import { clearLogs, vars } from "../state/runner";
 import { code } from "../state/workspace";
+import { Button } from "./button";
 import { Console } from "./console";
 import { VarList } from "./inspect";
 
@@ -26,7 +27,9 @@ export function Output() {
         </For>
         <span class="spacer" />
         <Show when={tab() === "console"}>
-          <button class="ghost" onClick={clearLogs}>Clear</button>
+          <Button variant="ghost" onClick={clearLogs}>
+            Clear
+          </Button>
         </Show>
       </nav>
       <Switch>

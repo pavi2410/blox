@@ -1,5 +1,7 @@
 import { Show, onSettled } from "solid-js";
 import { closeDialog, dialog, toastText, type Dialog } from "../state/dialogs";
+import { Button } from "./button";
+import { Overlay } from "./overlay";
 
 function DialogBox(props: { d: Dialog }) {
   let input: HTMLInputElement | undefined;
@@ -10,23 +12,14 @@ function DialogBox(props: { d: Dialog }) {
       input.focus();
       input.select();
     } else ok.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      // capture + stop so an underlying Modal doesn't also close
-      e.stopPropagation();
-      closeDialog(null);
-    };
-    window.addEventListener("keydown", onKey, true);
-    return () => window.removeEventListener("keydown", onKey, true);
   });
 
   return (
-    <div class="modal-back" onClick={() => closeDialog(null)}>
+    <Overlay onClose={() => closeDialog(null)}>
       <form
         class="modal dialog"
         role="alertdialog"
         aria-labelledby="dialog-msg"
-        onClick={(e) => e.stopPropagation()}
         onSubmit={(e) => {
           e.preventDefault();
           closeDialog(props.d.kind === "prompt" ? input!.value : true);
@@ -37,17 +30,17 @@ function DialogBox(props: { d: Dialog }) {
           {(p) => <input ref={input} class="dialog-input" type="text" value={p().value} autocomplete="off" />}
         </Show>
         <div class="dialog-actions">
-          <button type="button" onClick={() => closeDialog(null)}>Cancel</button>
-          <button
-            ref={ok}
+          <Button onClick={() => closeDialog(null)}>Cancel</Button>
+          <Button
+            ref={(el) => (ok = el)}
             type="submit"
-            class={props.d.kind === "confirm" && props.d.danger ? "danger" : "primary"}
+            variant={props.d.kind === "confirm" && props.d.danger ? "danger" : "primary"}
           >
             {props.d.kind === "confirm" ? props.d.okLabel : "OK"}
-          </button>
+          </Button>
         </div>
       </form>
-    </div>
+    </Overlay>
   );
 }
 

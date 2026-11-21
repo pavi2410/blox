@@ -1,5 +1,6 @@
 import { For, Show, createEffect } from "solid-js";
 import { answer, ask, logs } from "../state/runner";
+import { Button } from "./button";
 
 export function Console() {
   let list!: HTMLDivElement;
@@ -38,7 +39,9 @@ export function Console() {
           >
             <label>{a().prompt}</label>
             <input ref={input} type="text" autocomplete="off" />
-            <button type="submit" class="primary">OK</button>
+            <Button type="submit" variant="primary">
+              OK
+            </Button>
           </form>
         )}
       </Show>

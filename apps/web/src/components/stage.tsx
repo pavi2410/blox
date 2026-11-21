@@ -1,7 +1,8 @@
 import { Show, createSignal, onSettled } from "solid-js";
 import { toast } from "../state/dialogs";
 import { initRuntime } from "../state/runner";
-import { Icon } from "./icon";
+import { Button, IconButton } from "./button";
+import { useWindowEvent } from "./overlay";
 
 type Target = "window" | "tab";
 
@@ -54,13 +55,9 @@ export function Stage() {
     win?.close();
   };
 
-  onSettled(() => {
-    initRuntime(stage, ui);
-    // don't leave an orphaned preview behind when the editor goes away
-    const close = () => popup?.close();
-    window.addEventListener("pagehide", close);
-    return () => window.removeEventListener("pagehide", close);
-  });
+  onSettled(() => initRuntime(stage, ui));
+  // don't leave an orphaned preview behind when the editor goes away
+  useWindowEvent("pagehide", () => popup?.close());
 
   return (
     <>
@@ -70,12 +67,8 @@ export function Stage() {
           <div ref={ui} class="ui-panel" hidden />
           <div class="stage-tools">
             <Show when={!popped()}>
-              <button class="icon" onClick={() => popOut("window")} title="Open preview in a new window" aria-label="Open preview in a new window">
-                <Icon name="popout" />
-              </button>
-              <button class="icon" onClick={() => popOut("tab")} title="Open preview in a new tab" aria-label="Open preview in a new tab">
-                <Icon name="newTab" />
-              </button>
+              <IconButton icon="popout" label="Open preview in a new window" onClick={() => popOut("window")} />
+              <IconButton icon="newTab" label="Open preview in a new tab" onClick={() => popOut("tab")} />
             </Show>
           </div>
         </div>
@@ -84,8 +77,10 @@ export function Stage() {
         <div class="stage-away">
           <span>Preview is open in another window</span>
           <span class="spacer" />
-          <button class="ghost" onClick={() => popup?.focus()}>Show</button>
-          <button onClick={bringBack}>Bring back</button>
+          <Button variant="ghost" onClick={() => popup?.focus()}>
+            Show
+          </Button>
+          <Button onClick={bringBack}>Bring back</Button>
         </div>
       </Show>
     </>

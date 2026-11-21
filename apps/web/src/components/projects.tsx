@@ -3,6 +3,8 @@ import { current, currentId, newProject, openProject, projects, removeProject, r
 import { running, stop } from "../state/runner";
 import { applyProject, exportJson, flushSave, importJson, workspaceState } from "../state/workspace";
 import { confirmDialog, promptDialog, toast } from "../state/dialogs";
+import { Button } from "./button";
+import { Card, CardGrid } from "./card";
 import { Icon } from "./icon";
 import { Modal } from "./modal";
 import { Preview } from "./preview";
@@ -48,63 +50,66 @@ export function Projects() {
           onClose={() => setOpen(false)}
           extra={
             <>
-              <button class="ghost" onClick={importJson} title="Replace this project's blocks with a .json file">
+              <Button variant="ghost" onClick={importJson} title="Replace this project's blocks with a .json file">
                 Import
-              </button>
-              <button class="ghost" onClick={exportJson} title="Download this project as .json">
+              </Button>
+              <Button variant="ghost" onClick={exportJson} title="Download this project as .json">
                 Export
-              </button>
-              <button class="primary" onClick={() => void create()}>
+              </Button>
+              <Button variant="primary" onClick={() => void create()}>
                 New
-              </button>
+              </Button>
             </>
           }
         >
-          <div class="gallery">
+          <CardGrid>
             <For each={projects()}>
-              {(p) => (
-                <div class={{ "gallery-card": true, current: p.id === currentId() }}>
-                  <button class="gallery-open" onClick={() => void switchTo(p.id).then(() => setOpen(false))}>
-                    <div class="gallery-thumb">
-                      <Preview state={p.id === currentId() ? workspaceState() : p.state} />
-                    </div>
-                    <span>{p.name}</span>
-                    <span class="gallery-when">{ago(p.updatedAt)}</span>
-                  </button>
-                  <div class="gallery-actions">
-                    <button
-                      onClick={async () => {
-                        const name = await promptDialog("Rename project", p.name);
-                        if (name) void renameProject(p.id, name);
-                      }}
-                    >
-                      Rename
-                    </button>
-                    <button
-                      onClick={() => {
-                        shareUrl(p.id === currentId() ? workspaceState() : p.state);
-                        toast("Share URL copied to clipboard");
-                      }}
-                    >
-                      Share
-                    </button>
-                    <button
-                      class="danger"
-                      onClick={async () => {
-                        if (!(await confirmDialog(`Delete "${p.name}"?`, { okLabel: "Delete", danger: true }))) return;
-                        const was = p.id === currentId();
-                        void removeProject(p.id).then(() => {
-                          if (was) applyProject(current()?.state);
-                        });
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              )}
+              {(p) => {
+                const state = () => (p.id === currentId() ? workspaceState() : p.state);
+                return (
+                  <Card
+                    thumb={<Preview state={state()} />}
+                    title={p.name}
+                    meta={ago(p.updatedAt)}
+                    current={p.id === currentId()}
+                    onOpen={() => void switchTo(p.id).then(() => setOpen(false))}
+                    actions={
+                      <>
+                        <Button
+                          onClick={async () => {
+                            const name = await promptDialog("Rename project", p.name);
+                            if (name) void renameProject(p.id, name);
+                          }}
+                        >
+                          Rename
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            shareUrl(state());
+                            toast("Share URL copied to clipboard");
+                          }}
+                        >
+                          Share
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={async () => {
+                            if (!(await confirmDialog(`Delete "${p.name}"?`, { okLabel: "Delete", danger: true }))) return;
+                            const was = p.id === currentId();
+                            void removeProject(p.id).then(() => {
+                              if (was) applyProject(current()?.state);
+                            });
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </>
+                    }
+                  />
+                );
+              }}
             </For>
-          </div>
+          </CardGrid>
         </Modal>
       </Show>
     </>

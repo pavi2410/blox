@@ -2,8 +2,8 @@ import { For, Show, createSignal } from "solid-js";
 import { confirmDialog } from "../state/dialogs";
 import { SPEEDS, changeSpeed, debug, debugging, pause, paused, resume, run, running, speed, step, stop } from "../state/runner";
 import { canRedo, canUndo, clearWorkspace, loadState, redo, undo } from "../state/workspace";
+import { Button, IconButton } from "./button";
 import { Gallery } from "./gallery";
-import { Icon } from "./icon";
 import { Projects } from "./projects";
 
 export function Toolbar() {
@@ -25,15 +25,9 @@ export function Toolbar() {
 
       {/* editing */}
       <div class="tb-group">
-        <button class="icon" onClick={undo} disabled={!canUndo()} title="Undo (Ctrl+Z)" aria-label="Undo">
-          <Icon name="undo" />
-        </button>
-        <button class="icon" onClick={redo} disabled={!canRedo()} title="Redo (Ctrl+Shift+Z)" aria-label="Redo">
-          <Icon name="redo" />
-        </button>
-        <button class="icon" onClick={() => void clear()} title="Clear workspace" aria-label="Clear workspace">
-          <Icon name="trash" />
-        </button>
+        <IconButton icon="undo" label="Undo" title="Undo (Ctrl+Z)" onClick={undo} disabled={!canUndo()} />
+        <IconButton icon="redo" label="Redo" title="Redo (Ctrl+Shift+Z)" onClick={redo} disabled={!canRedo()} />
+        <IconButton icon="trash" label="Clear workspace" onClick={() => void clear()} />
       </div>
 
       <span class="tb-sep" />
@@ -44,34 +38,34 @@ export function Toolbar() {
           when={running()}
           fallback={
             <>
-              <button class="primary" onClick={run}>
-                <Icon name="play" /> Run
-              </button>
-              <button onClick={debug} title="Run with highlighting, pause/step, breakpoints and variable inspection">
-                <Icon name="bug" /> Debug
-              </button>
+              <Button icon="play" variant="primary" onClick={run}>
+                Run
+              </Button>
+              <Button icon="bug" onClick={debug} title="Run with highlighting, pause/step, breakpoints and variable inspection">
+                Debug
+              </Button>
             </>
           }
         >
-          <button class="danger" onClick={stop}>
-            <Icon name="stop" /> Stop
-          </button>
+          <Button icon="stop" variant="danger" onClick={stop}>
+            Stop
+          </Button>
           <Show when={debugging()}>
             <Show
               when={paused()}
               fallback={
-                <button onClick={pause}>
-                  <Icon name="pause" /> Pause
-                </button>
+                <Button icon="pause" onClick={pause}>
+                  Pause
+                </Button>
               }
             >
-              <button class="primary" onClick={resume}>
-                <Icon name="play" /> Resume
-              </button>
+              <Button icon="play" variant="primary" onClick={resume}>
+                Resume
+              </Button>
             </Show>
-            <button onClick={step} title="Run one block, then pause">
-              <Icon name="step" /> Step
-            </button>
+            <Button icon="step" onClick={step} title="Run one block, then pause">
+              Step
+            </Button>
             <select
               class="speed"
               title="Debug speed: delay per block"
@@ -92,7 +86,7 @@ export function Toolbar() {
 
       <span class="spacer" />
 
-      <button onClick={() => setGallery(true)}>Examples</button>
+      <Button onClick={() => setGallery(true)}>Examples</Button>
 
       <Show when={gallery()}>
         <Gallery

@@ -187,7 +187,7 @@ body.popout { display: grid; place-items: center; overflow: hidden; }
 .gallery-open:hover { filter: none; }
 .gallery-thumb { aspect-ratio: 4 / 3; border-radius: var(--radius-sm); overflow: hidden; background: #111; }
 .gallery-thumb svg { display: block; width: 100%; height: 100%; }
-.gallery-open > span, .gallery-card > span { font-size: 13px; }
+.gallery-open > span { font-size: 13px; }
 .gallery-when { font-size: 11px; color: var(--muted); }
 .gallery-actions { display: flex; gap: 4px; flex-wrap: wrap; }
 .gallery-actions button { padding: 4px 8px; font-size: 12px; }
