@@ -1,4 +1,5 @@
-import { onSettled, type JSX } from "solid-js";
+import { onSettled } from "solid-js";
+import type { JSX } from "@solidjs/web";
 
 export function Modal(props: { title: string; onClose: () => void; extra?: JSX.Element; children: JSX.Element }) {
   onSettled(() => {

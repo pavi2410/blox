@@ -1,4 +1,4 @@
-import type { JSX } from "solid-js";
+import type { JSX } from "@solidjs/web";
 
 const frame = (bg: string, kids: JSX.Element) => (
   <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
