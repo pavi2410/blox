@@ -7,17 +7,17 @@ allowBuilds:
   workerd: true
 
 catalog:
-  blockly: ^13.3.0
+  blockly: ^13.5.0
   solid-js: ^2.0.3
   "@solidjs/web": ^2.0.3
   "@solidjs/vite-plugin": ^3.0.1
   vite: ^8.3.0
   typescript: ^7.0.2
-  "@blockly/field-colour": ^13.3.0
-  "@blockly/theme-dark": ^13.3.0
-  "@blockly/plugin-workspace-search": ^13.3.0
-  "@blockly/workspace-backpack": ^13.3.0
-  "@blockly/zoom-to-fit": ^13.3.0
-  "@blockly/block-dynamic-connection": ^13.3.0
+  "@blockly/field-colour": ^13.5.0
+  "@blockly/theme-dark": ^13.5.0
+  "@blockly/plugin-workspace-search": ^13.5.0
+  "@blockly/workspace-backpack": ^13.5.0
+  "@blockly/zoom-to-fit": ^13.5.0
+  "@blockly/block-dynamic-connection": ^13.5.0
   lz-string: ^1.5.0
   wrangler: ^4.127.0

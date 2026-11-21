@@ -165,23 +165,23 @@ settings:
 catalogs:
   default:
     '@blockly/block-dynamic-connection':
-      specifier: ^13.3.0
-      version: 13.3.0
+      specifier: ^13.5.0
+      version: 13.5.0
     '@blockly/field-colour':
-      specifier: ^13.3.0
-      version: 13.3.0
+      specifier: ^13.5.0
+      version: 13.5.0
     '@blockly/plugin-workspace-search':
-      specifier: ^13.3.0
-      version: 13.3.0
+      specifier: ^13.5.0
+      version: 13.5.0
     '@blockly/theme-dark':
-      specifier: ^13.3.0
-      version: 13.3.0
+      specifier: ^13.5.0
+      version: 13.5.0
     '@blockly/workspace-backpack':
-      specifier: ^13.3.0
-      version: 13.3.0
+      specifier: ^13.5.0
+      version: 13.5.0
     '@blockly/zoom-to-fit':
-      specifier: ^13.3.0
-      version: 13.3.0
+      specifier: ^13.5.0
+      version: 13.5.0
     '@solidjs/vite-plugin':
       specifier: ^3.0.1
       version: 3.0.1
@@ -189,8 +189,8 @@ catalogs:
       specifier: ^2.0.3
       version: 2.0.3
     blockly:
-      specifier: ^13.3.0
-      version: 13.3.0
+      specifier: ^13.5.0
+      version: 13.5.0
     lz-string:
       specifier: ^1.5.0
       version: 1.5.0
@@ -222,7 +222,7 @@ importers:
     dependencies:
       '@blockly/theme-dark':
         specifier: 'catalog:'
-        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+        version: 13.5.0(blockly@13.5.0(jsdom@29.1.1))
       '@blox/blocks':
         specifier: workspace:*
         version: link:../../packages/blocks
@@ -237,7 +237,7 @@ importers:
         version: 2.0.3(solid-js@2.0.3)
       blockly:
         specifier: 'catalog:'
-        version: 13.3.0(jsdom@29.1.1)
+        version: 13.5.0(jsdom@29.1.1)
       lz-string:
         specifier: 'catalog:'
         version: 1.5.0
@@ -259,14 +259,14 @@ importers:
     dependencies:
       '@blockly/block-dynamic-connection':
         specifier: 'catalog:'
-        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+        version: 13.5.0(blockly@13.5.0(jsdom@29.1.1))
       '@blockly/field-colour':
         specifier: 'catalog:'
-        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+        version: 13.5.0(blockly@13.5.0(jsdom@29.1.1))
     devDependencies:
       blockly:
         specifier: 'catalog:'
-        version: 13.3.0(jsdom@29.1.1)
+        version: 13.5.0(jsdom@29.1.1)
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -275,23 +275,23 @@ importers:
     dependencies:
       '@blockly/block-dynamic-connection':
         specifier: 'catalog:'
-        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+        version: 13.5.0(blockly@13.5.0(jsdom@29.1.1))
       '@blockly/plugin-workspace-search':
         specifier: 'catalog:'
-        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+        version: 13.5.0(blockly@13.5.0(jsdom@29.1.1))
       '@blockly/workspace-backpack':
         specifier: 'catalog:'
-        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+        version: 13.5.0(blockly@13.5.0(jsdom@29.1.1))
       '@blockly/zoom-to-fit':
         specifier: 'catalog:'
-        version: 13.3.0(blockly@13.3.0(jsdom@29.1.1))
+        version: 13.5.0(blockly@13.5.0(jsdom@29.1.1))
     devDependencies:
       '@solidjs/web':
         specifier: 'catalog:'
         version: 2.0.3(solid-js@2.0.3)
       blockly:
         specifier: 'catalog:'
-        version: 13.3.0(jsdom@29.1.1)
+        version: 13.5.0(jsdom@29.1.1)
       solid-js:
         specifier: 'catalog:'
         version: 2.0.3
@@ -393,40 +393,40 @@ packages:
     resolution: {integrity: sha512-Vj1jF3cPfxg7OAfoI7QnVKLoILlm2JF9pnVHrX8qx7AHMiYWT+NDAA7jChlNgRS4WTLc/fD1lXLmPixluj+3Gg==}
     engines: {node: '>=6.9.0'}
 
-  '@blockly/block-dynamic-connection@13.3.0':
-    resolution: {integrity: sha512-OKPlFtMyDJyJyEm2E5tB3lZmIzd9BUCgycYdrZk5VG22NkUOc11hjobX6Ofi35zG23bByASk+TCl0/wEeis1PQ==}
+  '@blockly/block-dynamic-connection@13.5.0':
+    resolution: {integrity: sha512-aZwhO//0fNagWPjD93xXOJ8ikGRt1/BqD3Ff9ZSYlt7Klr4fP7f+k7gS6uWdfURCia3+Za4igrpEqZ1OyJOXsQ==}
     peerDependencies:
-      blockly: ^13.2.0
+      blockly: ^13.5.0
 
-  '@blockly/field-colour@13.3.0':
-    resolution: {integrity: sha512-5Gm9dAyY3psU/JbEPh2CcWJ/01WtfxHV06PO3kYLGeStkr/eaZZD+AvnuBd7Q2opKh3X8uDvnceqrjgp3S7UvA==}
+  '@blockly/field-colour@13.5.0':
+    resolution: {integrity: sha512-gCqsBaw+9YwMCA2dKS7h1D2M8dW59rB3ovB6XjJieOPDcfY9xiXheYS3AHwhXIImnM19lNdYPS0flWCd9AWqMg==}
     peerDependencies:
-      blockly: ^13.2.0
+      blockly: ^13.5.0
 
-  '@blockly/field-grid-dropdown@13.3.0':
-    resolution: {integrity: sha512-5q+CwaWOat9MQ5VuGcHEFT1yXtfFtgs89HRHZJ5cYs+UG2L2MUaCIvjnBgRDeKHwL5Jt+bJECfMlJd3B49c2IQ==}
+  '@blockly/field-grid-dropdown@13.5.0':
+    resolution: {integrity: sha512-Yhj0ccvrPdNQ5yEKJSBUd0j71RcAr2/QLtm2kRsuzkGL6/YYC4IuXqWp0uUBiBHGc6DaogATg8OsEdR1XiCTyw==}
     peerDependencies:
-      blockly: ^13.2.0
+      blockly: ^13.5.0
 
-  '@blockly/plugin-workspace-search@13.3.0':
-    resolution: {integrity: sha512-YGdcuQcsyXM3KxhndUeegrksBPV5wgzvl+MHGPSTKw6xVA6Qm8GJlGbpw/DyaUwtdMaydUts4jOOH+X9Rn1Lew==}
+  '@blockly/plugin-workspace-search@13.5.0':
+    resolution: {integrity: sha512-+gPRvinsZClFEooW+KvUs7jLy7kj0Z3arEpV0J8KslzxcYhhxyS26BjBggxgyW6JTziOF9emYclzZiusrgmQbg==}
     peerDependencies:
-      blockly: ^13.2.0
+      blockly: ^13.5.0
 
-  '@blockly/theme-dark@13.3.0':
-    resolution: {integrity: sha512-0dGj2NINVoxdgKmbqm71Y/3+JL7+unbjXeHUWhvjCo3HB0k5tKnbTtW5HS3wVgdarI6OxhZo17t1om5tx8f4yg==}
+  '@blockly/theme-dark@13.5.0':
+    resolution: {integrity: sha512-a0lK7iCTOTRIeADMgNk7uo5JJ1U4gqopyuQO5zwESKqaZKojYJM/6EhQiotKt0tSI0R7pO0geYYPSEDZY/amkw==}
     peerDependencies:
-      blockly: ^13.2.0
+      blockly: ^13.5.0
 
-  '@blockly/workspace-backpack@13.3.0':
-    resolution: {integrity: sha512-bTkv79OLXdY+rpYYWX8ZJn+yed84+oWy3ew22j9cx9uFwdFCPxCPDuI8+5j1ipgzxokiGcMIcTkSmI80Lnfzdw==}
+  '@blockly/workspace-backpack@13.5.0':
+    resolution: {integrity: sha512-pPxephodXWwqO3ovuJNnxi1C6nkFLVrRxn0FGm6hVvkf0maJVWvHNlGxOB77MUArgTA4bP1/kVQEnpxDfhQcCA==}
     peerDependencies:
-      blockly: ^13.2.0
+      blockly: ^13.5.0
 
-  '@blockly/zoom-to-fit@13.3.0':
-    resolution: {integrity: sha512-uQUcVcTSTUxJCNZ/Hu/N9RhP2jZAQsYvJL2mkoL+UcBPZa32MDqcEUuX2RbYFKDHUCrX33eJlAvp6Un6J+ZUFw==}
+  '@blockly/zoom-to-fit@13.5.0':
+    resolution: {integrity: sha512-sZ/8dCeW2ieZMJI6eF7Q1AOO7DK+DdKzm3qvhx+BGiplAjQi8lV+1asXrFbZ5+LaBNc16OKwj8iXOlWjFofEog==}
     peerDependencies:
-      blockly: ^13.2.0
+      blockly: ^13.5.0
 
   '@bramus/specificity@2.4.2':
     resolution: {integrity: sha512-ctxtJ/eA+t+6q2++vj5j7FYX3nRu311q1wfYH3xjlLOsczhlhxAg2FWNUXhpGvAw3BWo1xBcvOV6/YLc2r5FJw==}
@@ -1194,11 +1194,11 @@ packages:
   blake3-wasm@2.1.5:
     resolution: {integrity: sha512-F1+K8EbfOZE49dtoPtmxUQrpXaBIl3ICvasLh+nJta0xkz+9kF/7uet9fLnwKqhDrmj6g+6K3Tw9yQPUg2ka5g==}
 
-  blockly@13.3.0:
-    resolution: {integrity: sha512-qAHFGMGTSF67Lupr3pjZz9LQu4JCFdN76CMZxegBKiveZreK08yXhaCz0g9q9/xe5GEdoeFT3POAlQavPIRPEw==}
+  blockly@13.5.0:
+    resolution: {integrity: sha512-naWZHTzwnFHI8XZBLRGwTHODb71KDH+U79dCPaohKsEYnWUgFL3Cq6AaZzDAMHtAj5NdtTuUnKJ982saalVfhQ==}
     engines: {node: '>=22'}
     peerDependencies:
-      jsdom: '>=27.4.0 <30.0.0'
+      jsdom: '>=27.4.0 <31.0.0'
 
   browserslist@4.28.9:
     resolution: {integrity: sha512-EWazOblFYUvlGZcfGhPUPmYh3nikUxBVb+y9MJun5f3hBi812X+8MSQTujLBtgK3cf51fJWbWfOjyeO954d+Eg==}
@@ -1804,34 +1804,34 @@ snapshots:
       '@babel/helper-validator-identifier': 7.29.7
     optional: true
 
-  '@blockly/block-dynamic-connection@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+  '@blockly/block-dynamic-connection@13.5.0(blockly@13.5.0(jsdom@29.1.1))':
     dependencies:
-      blockly: 13.3.0(jsdom@29.1.1)
+      blockly: 13.5.0(jsdom@29.1.1)
 
-  '@blockly/field-colour@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+  '@blockly/field-colour@13.5.0(blockly@13.5.0(jsdom@29.1.1))':
     dependencies:
-      '@blockly/field-grid-dropdown': 13.3.0(blockly@13.3.0(jsdom@29.1.1))
-      blockly: 13.3.0(jsdom@29.1.1)
+      '@blockly/field-grid-dropdown': 13.5.0(blockly@13.5.0(jsdom@29.1.1))
+      blockly: 13.5.0(jsdom@29.1.1)
 
-  '@blockly/field-grid-dropdown@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+  '@blockly/field-grid-dropdown@13.5.0(blockly@13.5.0(jsdom@29.1.1))':
     dependencies:
-      blockly: 13.3.0(jsdom@29.1.1)
+      blockly: 13.5.0(jsdom@29.1.1)
 
-  '@blockly/plugin-workspace-search@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+  '@blockly/plugin-workspace-search@13.5.0(blockly@13.5.0(jsdom@29.1.1))':
     dependencies:
-      blockly: 13.3.0(jsdom@29.1.1)
+      blockly: 13.5.0(jsdom@29.1.1)
 
-  '@blockly/theme-dark@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+  '@blockly/theme-dark@13.5.0(blockly@13.5.0(jsdom@29.1.1))':
     dependencies:
-      blockly: 13.3.0(jsdom@29.1.1)
+      blockly: 13.5.0(jsdom@29.1.1)
 
-  '@blockly/workspace-backpack@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+  '@blockly/workspace-backpack@13.5.0(blockly@13.5.0(jsdom@29.1.1))':
     dependencies:
-      blockly: 13.3.0(jsdom@29.1.1)
+      blockly: 13.5.0(jsdom@29.1.1)
 
-  '@blockly/zoom-to-fit@13.3.0(blockly@13.3.0(jsdom@29.1.1))':
+  '@blockly/zoom-to-fit@13.5.0(blockly@13.5.0(jsdom@29.1.1))':
     dependencies:
-      blockly: 13.3.0(jsdom@29.1.1)
+      blockly: 13.5.0(jsdom@29.1.1)
 
   '@bramus/specificity@2.4.2':
     dependencies:
@@ -2314,7 +2314,7 @@ snapshots:
 
   blake3-wasm@2.1.5: {}
 
-  blockly@13.3.0(jsdom@29.1.1):
+  blockly@13.5.0(jsdom@29.1.1):
     dependencies:
       jsdom: 29.1.1
 
