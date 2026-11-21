@@ -15,6 +15,7 @@
   --radius-lg: 12px;
   --shadow: 0 16px 48px #0008;
 
+  --z-menu: 40;
   --z-modal: 50;
   --z-dialog: 60;
   --z-toast: 70;
@@ -42,18 +43,18 @@ button.ghost:hover { filter: none; color: var(--fg); background: var(--border); 
 .ico { flex: none; display: block; }
 
 /* one look for every text field */
-.ask input, .ui-panel input, .dialog-input, .blockly-ws-search input {
+.field, .ui-panel input, .blockly-ws-search input {
   background: var(--bg); color: var(--fg); border: 1px solid var(--border);
   border-radius: var(--radius-sm); padding: 6px 8px; font: inherit;
 }
-.ask input:focus, .ui-panel input:focus, .dialog-input:focus { outline: none; border-color: var(--accent); }
+.field:focus, .ui-panel input:focus { outline: none; border-color: var(--accent); }
 
 .muted { color: var(--muted); }
 .spacer { flex: 1; }
 
 /* ---------- layout ---------- */
 .app { display: grid; grid-template-rows: auto 1fr; height: 100%; }
-.main { display: grid; min-height: 0; }
+.split { display: grid; min-height: 0; }
 .editor { min-width: 0; min-height: 0; }
 .splitter { cursor: col-resize; background: var(--border); }
 .splitter:hover, .splitter:active { background: var(--accent); }
@@ -65,12 +66,24 @@ button.ghost:hover { filter: none; color: var(--fg); background: var(--border); 
   padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--panel);
   min-width: 0;
 }
-.tb-group { display: flex; align-items: center; gap: 4px; }
-.tb-sep { width: 1px; height: 20px; background: var(--border); flex: none; }
+.btn-group { display: flex; align-items: center; gap: 4px; }
+.separator { width: 1px; height: 20px; background: var(--border); flex: none; }
 .brand { font-weight: 700; letter-spacing: 0.04em; margin-right: 4px; }
 .projects-btn { max-width: 180px; color: var(--fg); padding: 6px 8px; }
 .projects-btn > span { overflow: hidden; text-overflow: ellipsis; }
-select.speed { padding: 6px 8px; font-size: 13px; }
+
+/* dropdown menu */
+.dropdown { position: relative; }
+.dropdown-trigger { padding: 6px 8px 6px 10px; font-size: 13px; }
+.dropdown-menu {
+  position: absolute; top: calc(100% + 4px); left: 0; z-index: var(--z-menu);
+  min-width: 100%; padding: 4px; display: flex; flex-direction: column;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: 0 8px 24px #0008;
+}
+.dropdown-menu button { justify-content: flex-start; gap: 4px; background: transparent; padding: 5px 10px 5px 6px; font-size: 13px; }
+.dropdown-menu button:hover, .dropdown-menu button:focus-visible { filter: none; background: var(--border); outline: none; }
+.dropdown-check { width: 14px; display: inline-flex; color: var(--accent); }
 
 /* ---------- stage: canvas + UI overlay in one 4:3 box ---------- */
 .stage-col {
@@ -126,7 +139,7 @@ body.popout { display: grid; place-items: center; overflow: hidden; }
 .console { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 .ask { display: flex; gap: 6px; align-items: center; padding: 8px; border-top: 1px solid var(--border); font-size: 13px; }
 .ask label { color: var(--accent); }
-.ask input { flex: 1; }
+.ask .field { flex: 1; }
 
 .insp-row { display: flex; gap: 8px; align-items: baseline; padding: 1px 0; }
 .insp-twist {

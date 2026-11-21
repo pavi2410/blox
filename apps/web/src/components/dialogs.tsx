@@ -1,7 +1,8 @@
 import { Show, onSettled } from "solid-js";
 import { closeDialog, dialog, toastText, type Dialog } from "../state/dialogs";
-import { Button } from "./button";
-import { Overlay } from "./overlay";
+import { Button } from "./ui/button";
+import { Overlay } from "./ui/overlay";
+import { TextField } from "./ui/text-field";
 
 function DialogBox(props: { d: Dialog }) {
   let input: HTMLInputElement | undefined;
@@ -27,7 +28,7 @@ function DialogBox(props: { d: Dialog }) {
       >
         <p id="dialog-msg" class="dialog-msg">{props.d.message}</p>
         <Show when={props.d.kind === "prompt" && props.d}>
-          {(p) => <input ref={input} class="dialog-input" type="text" value={p().value} autocomplete="off" />}
+          {(p) => <TextField ref={(el) => (input = el)} class="dialog-input" value={p().value} aria-label={p().message} />}
         </Show>
         <div class="dialog-actions">
           <Button onClick={() => closeDialog(null)}>Cancel</Button>

@@ -1,8 +1,8 @@
 import { For } from "solid-js";
 import { examples, type Example } from "../examples";
 import { Thumb } from "../examples/thumbs";
-import { Card, CardGrid } from "./card";
-import { Modal } from "./modal";
+import { Card, CardGrid } from "./ui/card";
+import { Modal } from "./ui/modal";
 
 export function Gallery(props: { onClose: () => void; onPick: (ex: Example) => void }) {
   return (

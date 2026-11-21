@@ -1,32 +1,27 @@
-import { createSignal } from "solid-js";
+import { AppHeader } from "./components/app-header";
 import { Dialogs } from "./components/dialogs";
 import { Editor } from "./components/editor";
 import { Output } from "./components/output";
-import { Splitter } from "./components/splitter";
 import { Stage } from "./components/stage";
-import { Toolbar } from "./components/toolbar";
-
-const KEY = "blox.side";
-const clamp = (n: number) => Math.min(720, Math.max(280, n));
+import { SplitPane } from "./components/ui/split-pane";
 
 export function App() {
-  const [side, setSide] = createSignal(clamp(Number(localStorage.getItem(KEY)) || 420));
-  const resize = (n: number) => {
-    setSide(n);
-    localStorage.setItem(KEY, String(n));
-  };
-
   return (
     <div class="app">
-      <Toolbar />
-      <main class="main" style={{ "grid-template-columns": `1fr 6px ${side()}px` }}>
-        <Editor />
-        <Splitter value={side()} min={280} max={720} onChange={resize} />
-        <aside class="side">
-          <Stage />
-          <Output />
-        </aside>
-      </main>
+      <AppHeader />
+      <SplitPane
+        storageKey="blox.side"
+        initial={420}
+        min={280}
+        max={720}
+        start={<Editor />}
+        end={
+          <aside class="side">
+            <Stage />
+            <Output />
+          </aside>
+        }
+      />
       <Dialogs />
     </div>
   );

@@ -3,10 +3,10 @@ import { current, currentId, newProject, openProject, projects, removeProject, r
 import { running, stop } from "../state/runner";
 import { applyProject, exportJson, flushSave, importJson, workspaceState } from "../state/workspace";
 import { confirmDialog, promptDialog, toast } from "../state/dialogs";
-import { Button } from "./button";
-import { Card, CardGrid } from "./card";
-import { Icon } from "./icon";
-import { Modal } from "./modal";
+import { Button } from "./ui/button";
+import { Card, CardGrid } from "./ui/card";
+import { Icon } from "./ui/icon";
+import { Modal } from "./ui/modal";
 import { Preview } from "./preview";
 
 const ago = (t: number) => {

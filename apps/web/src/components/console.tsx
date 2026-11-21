@@ -1,6 +1,8 @@
 import { For, Show, createEffect } from "solid-js";
 import { answer, ask, logs } from "../state/runner";
-import { Button } from "./button";
+import { Button } from "./ui/button";
+import { Panel } from "./ui/panel";
+import { TextField } from "./ui/text-field";
 
 export function Console() {
   let list!: HTMLDivElement;
@@ -22,11 +24,11 @@ export function Console() {
 
   return (
     <div class="console">
-      <div ref={list} class="panel">
+      <Panel ref={(el) => (list = el)}>
         <For each={logs} fallback={<span class="muted">Press Run to see output</span>}>
           {(line) => <div class={line.level}>{line.text}</div>}
         </For>
-      </div>
+      </Panel>
       <Show when={ask()}>
         {(a) => (
           <form
@@ -38,7 +40,7 @@ export function Console() {
             }}
           >
             <label>{a().prompt}</label>
-            <input ref={input} type="text" autocomplete="off" />
+            <TextField ref={(el) => (input = el)} aria-label={a().prompt} />
             <Button type="submit" variant="primary">
               OK
             </Button>

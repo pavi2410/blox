@@ -13,8 +13,8 @@ export function useWindowEvent<K extends keyof WindowEventMap>(
   });
 }
 
-// Open overlays, oldest first. Escape closes only the topmost, so a dialog
-// over a modal doesn't take the modal down with it.
+// Open layers (modals, dialogs, menus), oldest first. Escape closes only the
+// topmost, so a dialog over a modal doesn't take the modal down with it.
 const stack: (() => void)[] = [];
 window.addEventListener(
   "keydown",
@@ -26,16 +26,21 @@ window.addEventListener(
   true,
 );
 
-/** Dimmed full-screen backdrop; closes on Escape (topmost only) or a click outside its content. */
-export function Overlay(props: { onClose: () => void; children: JSX.Element }) {
+/** Register a dismissible layer for the component's lifetime; Escape calls `onClose` while it is topmost. */
+export function useEscapeLayer(onClose: () => void) {
   onSettled(() => {
-    const close = () => props.onClose();
+    const close = () => onClose();
     stack.push(close);
     return () => {
       const i = stack.lastIndexOf(close);
       if (i >= 0) stack.splice(i, 1);
     };
   });
+}
+
+/** Dimmed full-screen backdrop; closes on Escape (topmost only) or a click outside its content. */
+export function Overlay(props: { onClose: () => void; children: JSX.Element }) {
+  useEscapeLayer(() => props.onClose());
 
   return (
     <div

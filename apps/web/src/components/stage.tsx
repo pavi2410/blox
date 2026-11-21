@@ -1,8 +1,8 @@
 import { Show, createSignal, onSettled } from "solid-js";
 import { toast } from "../state/dialogs";
 import { initRuntime } from "../state/runner";
-import { Button, IconButton } from "./button";
-import { useWindowEvent } from "./overlay";
+import { Button, IconButton } from "./ui/button";
+import { useWindowEvent } from "./ui/overlay";
 
 type Target = "window" | "tab";
 

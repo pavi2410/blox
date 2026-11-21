@@ -1,6 +1,6 @@
 import { For, Show, createStore } from "solid-js";
 import type { Insp } from "@blox/runtime";
-import { Icon } from "./icon";
+import { Icon } from "./ui/icon";
 
 const summary = (v: Insp) => (v.kind === "prim" ? v.text : v.kind === "list" ? `list(${v.length})` : `dict(${v.size})`);
 

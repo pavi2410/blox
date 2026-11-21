@@ -1,12 +1,14 @@
-import { For, Show, createSignal } from "solid-js";
+import { Show, createSignal } from "solid-js";
 import { confirmDialog } from "../state/dialogs";
 import { SPEEDS, changeSpeed, debug, debugging, pause, paused, resume, run, running, speed, step, stop } from "../state/runner";
 import { canRedo, canUndo, clearWorkspace, loadState, redo, undo } from "../state/workspace";
-import { Button, IconButton } from "./button";
+import { Button, IconButton } from "./ui/button";
+import { Dropdown } from "./ui/dropdown";
+import { ButtonGroup, Separator, Spacer, Toolbar } from "./ui/layout";
 import { Gallery } from "./gallery";
 import { Projects } from "./projects";
 
-export function Toolbar() {
+export function AppHeader() {
   const [gallery, setGallery] = createSignal(false);
 
   const clear = async () => {
@@ -14,26 +16,23 @@ export function Toolbar() {
   };
 
   return (
-    <header class="toolbar">
-      {/* identity */}
-      <div class="tb-group">
+    <Toolbar>
+      <ButtonGroup label="Project">
         <span class="brand">Blox</span>
         <Projects />
-      </div>
+      </ButtonGroup>
 
-      <span class="tb-sep" />
+      <Separator />
 
-      {/* editing */}
-      <div class="tb-group">
+      <ButtonGroup label="Edit">
         <IconButton icon="undo" label="Undo" title="Undo (Ctrl+Z)" onClick={undo} disabled={!canUndo()} />
         <IconButton icon="redo" label="Redo" title="Redo (Ctrl+Shift+Z)" onClick={redo} disabled={!canRedo()} />
         <IconButton icon="trash" label="Clear workspace" onClick={() => void clear()} />
-      </div>
+      </ButtonGroup>
 
-      <span class="tb-sep" />
+      <Separator />
 
-      {/* running */}
-      <div class="tb-group">
+      <ButtonGroup label="Run">
         <Show
           when={running()}
           fallback={
@@ -66,25 +65,18 @@ export function Toolbar() {
             <Button icon="step" onClick={step} title="Run one block, then pause">
               Step
             </Button>
-            <select
-              class="speed"
+            <Dropdown
+              label="Debug speed"
               title="Debug speed: delay per block"
-              aria-label="Debug speed"
-              onChange={(e) => changeSpeed(Number(e.currentTarget.value))}
-            >
-              <For each={SPEEDS}>
-                {(s) => (
-                  <option value={s.ms} selected={s.ms === speed()}>
-                    {s.label}
-                  </option>
-                )}
-              </For>
-            </select>
+              items={SPEEDS.map((s) => ({ value: s.ms, label: s.label }))}
+              value={speed()}
+              onSelect={changeSpeed}
+            />
           </Show>
         </Show>
-      </div>
+      </ButtonGroup>
 
-      <span class="spacer" />
+      <Spacer />
 
       <Button onClick={() => setGallery(true)}>Examples</Button>
 
@@ -99,6 +91,6 @@ export function Toolbar() {
           }}
         />
       </Show>
-    </header>
+    </Toolbar>
   );
 }
