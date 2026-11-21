@@ -1,6 +1,7 @@
 import { Show, createSignal } from "solid-js";
 import { changeSpeed, debug, debugging, pause, paused, resume, run, running, speed, step, stop } from "../state/runner";
 import { Gallery } from "./gallery";
+import { Icon } from "./icon";
 import { Projects } from "./projects";
 import { confirmDialog } from "../state/dialogs";
 import { canRedo, canUndo, clearWorkspace, exportJson, importJson, loadState, redo, undo } from "../state/workspace";
@@ -12,26 +13,26 @@ export function Toolbar() {
     <header class="toolbar">
       <span class="brand">Blox</span>
 
-      <button class="icon" onClick={undo} disabled={!canUndo()} title="Undo (Ctrl+Z)">↶</button>
-      <button class="icon" onClick={redo} disabled={!canRedo()} title="Redo (Ctrl+Shift+Z)">↷</button>
+      <button class="icon" onClick={undo} disabled={!canUndo()} title="Undo (Ctrl+Z)" aria-label="Undo"><Icon name="undo" /></button>
+      <button class="icon" onClick={redo} disabled={!canRedo()} title="Redo (Ctrl+Shift+Z)" aria-label="Redo"><Icon name="redo" /></button>
 
       <Show
         when={running()}
         fallback={
           <>
-            <button class="primary" onClick={run}>▶ Run</button>
+            <button class="primary" onClick={run}><Icon name="play" /> Run</button>
             <button onClick={debug} title="Run with highlighting, pause/step, breakpoints and variable inspection">
-              ⬢ Debug
+              <Icon name="bug" /> Debug
             </button>
           </>
         }
       >
-        <button class="danger" onClick={stop}>■ Stop</button>
+        <button class="danger" onClick={stop}><Icon name="stop" /> Stop</button>
         <Show when={debugging()}>
-          <Show when={paused()} fallback={<button onClick={pause}>❚❚ Pause</button>}>
-            <button class="primary" onClick={resume}>▶ Resume</button>
+          <Show when={paused()} fallback={<button onClick={pause}><Icon name="pause" /> Pause</button>}>
+            <button class="primary" onClick={resume}><Icon name="play" /> Resume</button>
           </Show>
-          <button onClick={step} title="Run one block, then pause">⤼ Step</button>
+          <button onClick={step} title="Run one block, then pause"><Icon name="step" /> Step</button>
         </Show>
       </Show>
 

@@ -1,5 +1,6 @@
 import { onSettled } from "solid-js";
 import type { JSX } from "@solidjs/web";
+import { Icon } from "./icon";
 
 export function Modal(props: { title: string; onClose: () => void; extra?: JSX.Element; children: JSX.Element }) {
   onSettled(() => {
@@ -17,8 +18,8 @@ export function Modal(props: { title: string; onClose: () => void; extra?: JSX.E
           <h2 id="modal-title">{props.title}</h2>
           <div class="modal-head-right">
             {props.extra}
-            <button class="icon" onClick={props.onClose} title="Close">
-              ×
+            <button class="icon" onClick={props.onClose} title="Close" aria-label="Close">
+              <Icon name="close" />
             </button>
           </div>
         </header>

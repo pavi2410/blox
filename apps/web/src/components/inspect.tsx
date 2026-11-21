@@ -1,5 +1,6 @@
 import { For, Show, createStore } from "solid-js";
 import type { Insp } from "@blox/runtime";
+import { Icon } from "./icon";
 
 const summary = (v: Insp) => (v.kind === "prim" ? v.text : v.kind === "list" ? `list(${v.length})` : `dict(${v.size})`);
 
@@ -34,9 +35,9 @@ function Row(props: {
   return (
     <div>
       <div class="insp-row">
-        <Show when={branch()} fallback={<span class="insp-twist muted">·</span>}>
-          <button class="insp-twist" onClick={() => props.toggle(props.path)}>
-            {props.shown(props.path) ? "▾" : "▸"}
+        <Show when={branch()} fallback={<span class="insp-twist" />}>
+          <button class="insp-twist" aria-label="Toggle" onClick={() => props.toggle(props.path)}>
+            <Icon name={props.shown(props.path) ? "chevronDown" : "chevronRight"} size={12} />
           </button>
         </Show>
         <span class="insp-key">{props.name}</span>
